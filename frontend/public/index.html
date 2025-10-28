@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Time - AI-Assisted Writing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .operations {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .btn-secondary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #0b7dda;
+        }
+
+        .btn-tertiary {
+            background: #FF9800;
+            color: white;
+        }
+
+        .btn-tertiary:hover {
+            background: #e68900;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .error {
+            background: #ffebee;
+            border-left-color: #f44336;
+            color: #c62828;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        .status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Story Time</h1>
+        <p class="subtitle">AI-assisted narrative development using local LLMs</p>
+
+        <div class="form-group">
+            <label for="synopsis">Narrative Context (Optional Synopsis):</label>
+            <textarea id="synopsis" placeholder="Provide context about your story, characters, and themes..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="text">Your Text:</label>
+            <textarea id="text" placeholder="Enter or paste your text here..."></textarea>
+        </div>
+
+        <div class="operations">
+            <button class="btn-primary" onclick="processText('expand')">✨ Expand</button>
+            <button class="btn-secondary" onclick="processText('refine')">🔍 Refine</button>
+            <button class="btn-tertiary" onclick="processText('revise')">📝 Revise</button>
+            <button class="btn-secondary" onclick="generateSynopsis()">💡 Generate Synopsis</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <p>⏳ Processing... This may take a moment.</p>
+        </div>
+
+        <div class="result" id="result">
+            <h3 id="resultTitle">Result:</h3>
+            <pre id="resultText"></pre>
+        </div>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+
+        async function processText(operation) {
+            const text = document.getElementById('text').value;
+            const synopsis = document.getElementById('synopsis').value;
+
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultText = document.getElementById('resultText');
+
+            // Show loading, hide result
+            loadingDiv.classList.add('show');
+            resultDiv.classList.remove('show');
+
+            try {
+                const response = await fetch(`${API_BASE}/text/${operation}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text, synopsis: synopsis || undefined }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Operation failed');
+                }
+
+                // Show result
+                resultTitle.textContent = `${operation.charAt(0).toUpperCase() + operation.slice(1)} Result:`;
+                resultText.textContent = data.result;
+                resultDiv.classList.remove('error');
+                resultDiv.classList.add('show');
+                showStatus(`${operation} completed successfully!`, 'success');
+
+            } catch (error) {
+                resultTitle.textContent = 'Error:';
+                resultText.textContent = error.message;
+                resultDiv.classList.add('error');
+                resultDiv.classList.add('show');
+                showStatus('Operation failed', 'error');
+            } finally {
+                loadingDiv.classList.remove('show');
+            }
+        }
+
+        async function generateSynopsis() {
+            const text = document.getElementById('text').value;
+
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultText = document.getElementById('resultText');
+
+            loadingDiv.classList.add('show');
+            resultDiv.classList.remove('show');
+
+            try {
+                const response = await fetch(`${API_BASE}/text/synopsis`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Synopsis generation failed');
+                }
+
+                // Show result and copy to synopsis field
+                resultTitle.textContent = 'Generated Synopsis:';
+                resultText.textContent = data.synopsis;
+                document.getElementById('synopsis').value = data.synopsis;
+                resultDiv.classList.remove('error');
+                resultDiv.classList.add('show');
+                showStatus('Synopsis generated and copied to context field!', 'success');
+
+            } catch (error) {
+                resultTitle.textContent = 'Error:';
+                resultText.textContent = error.message;
+                resultDiv.classList.add('error');
+                resultDiv.classList.add('show');
+                showStatus('Synopsis generation failed', 'error');
+            } finally {
+                loadingDiv.classList.remove('show');
+            }
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.style.background = type === 'error' ? '#f44336' : '#4CAF50';
+            status.classList.add('show');
+
+            setTimeout(() => {
+                status.classList.remove('show');
+            }, 3000);
+        }
+
+        // Check API health on load
+        async function checkHealth() {
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                if (response.ok) {
+                    showStatus('Connected to Story Time server', 'success');
+                }
+            } catch (error) {
+                showStatus('Cannot connect to server. Please start the backend.', 'error');
+            }
+        }
+
+        checkHealth();
+    </script>
+</body>
+</html>

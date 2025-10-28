@@ -10,9 +10,11 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
-# Build outputs (if any future builds are added)
+# Build outputs
 dist/
 build/
+backend/dist/
+frontend/dist/
 *.tsbuildinfo
 
 # Testing
