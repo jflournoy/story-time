@@ -72,20 +72,26 @@ The API is designed to support future narrative tracking features:
 
 ## Development Roadmap
 
+Track progress in [GitHub Issues](https://github.com/jflournoy/story-time/issues).
+
 ### Phase 1: MVP
 
-- [ ] Basic web interface for text input/output
-- [ ] LLM backend integration (Ollama recommended for start)
-- [ ] Core operations: expand, refine, revise
-- [ ] Synopsis management (user-provided or auto-generated)
-- [ ] Simple diff view for changes
+- [#9](https://github.com/jflournoy/story-time/issues/9) Project setup and configuration
+- [#1](https://github.com/jflournoy/story-time/issues/1) Define API architecture and data models
+- [#2](https://github.com/jflournoy/story-time/issues/2) Set up backend structure with LLM integration
+- [#3](https://github.com/jflournoy/story-time/issues/3) Create basic web interface
+- [#4](https://github.com/jflournoy/story-time/issues/4) Implement core text operations (expand, refine, revise)
+- [#5](https://github.com/jflournoy/story-time/issues/5) Implement synopsis management (user-provided or auto-generated)
+- [#6](https://github.com/jflournoy/story-time/issues/6) Create diff view for changes
+- [#7](https://github.com/jflournoy/story-time/issues/7) Write backend API tests
+- [#8](https://github.com/jflournoy/story-time/issues/8) Document API and usage
 
 ### Phase 2: Enhanced Operations
 
-- [ ] Restructure operation with outlining support
+- [#10](https://github.com/jflournoy/story-time/issues/10) Restructure operation with outlining support
 - [ ] Multi-model support (easy model switching)
-- [ ] Context history (track iteration history)
-- [ ] Export formats (Markdown, plain text, Fountain)
+- [#11](https://github.com/jflournoy/story-time/issues/11) Context history (track iteration history)
+- [#12](https://github.com/jflournoy/story-time/issues/12) Export formats (Markdown, plain text, Fountain)
 
 ### Phase 3: Narrative Intelligence
 
