@@ -69,6 +69,144 @@ The API is designed to support future narrative tracking features:
 2. **Contextual Processing**: Every LLM request includes narrative overview
 3. **Incremental Analysis**: Track changes and evolution over time
 4. **Model Flexibility**: Backend-agnostic design for any HuggingFace-compatible model
+5. **Agent Autonomy**: Future multi-agent system with context isolation and controlled information sharing
+
+## Agent Swarm Architecture (Future)
+
+Story Time's evolution includes a multi-agent system where autonomous agents manage world state and character behaviors, enabling dynamic, context-aware narrative development.
+
+### User Interaction Model
+
+Users interact with story agents through an intuitive web interface:
+
+- **Define Agent Profiles**: Create custom agents via web UI with personalities, goals, and constraints
+- **Agent Suggestion**: System intelligently suggests agents based on narrative needs
+- **Collaborative Development**: Agents work together to develop rich, consistent stories
+
+### Agent Suggestion Workflow
+
+The system transforms vague user input into concrete narratives with suggested agents:
+
+**Example: "Two people fall in love in the jungle"**
+
+1. **World Builder + Narrative Builder Processing**:
+   - Flesh out setting details (Amazon rainforest research station? Lost temple expedition?)
+   - Establish timeline and key events
+   - Develop conflict and tension points
+   - Identify character needs
+
+2. **System Suggests Agents**:
+   - **Elena**: Marine biologist, agent profile with goals and constraints
+   - **Marco**: Indigenous guide, agent profile with cultural knowledge
+   - **The Jungle** (optional): Environmental agent that influences events
+   - **Research Team** (optional): Supporting ensemble agent
+
+3. **User Customizes**:
+   - Adjust Elena's personality traits
+   - Add Marco's backstory elements
+   - Accept or modify suggested agents
+   - Add custom agent profiles as needed
+
+4. **Agents Collaborate**:
+   - World Builder maintains consistent jungle environment
+   - Narrative Builder ensures pacing and story arc
+   - Elena agent makes decisions based on her knowledge/personality
+   - Marco agent responds with his limited context
+   - Agents interact only when World Builder allows (shared space/events)
+
+### Agent Roles
+
+**World Builder Agent** (Omniscient Coordinator)
+
+- **Role**: Maintains canonical world state and timeline
+- **Capabilities**: Tracks all locations, events, global state, world rules
+- **Boundaries**: Observes but doesn't write story directly
+- **Data Access**: Full access to world context, all character states, complete timeline
+
+**Narrative Builder Agent** (Story Architect)
+
+- **Role**: Develops plot structure, pacing, and story arcs
+- **Capabilities**: Manages narrative tension, pacing, theme development
+- **Boundaries**: Guides story direction without controlling character decisions
+- **Data Access**: Full narrative overview, emotional arcs, plot threads
+
+**Character Agents** (Context-Limited Actors)
+
+- **Role**: Embody individual characters with unique perspectives
+- **Capabilities**: Make decisions based on character knowledge, goals, and personality
+- **Boundaries**: Only access to character-specific context and knowledge
+- **Data Access**: Character history, current knowledge, personality traits, goals
+
+**User-Defined Agent Profiles**
+
+- **Role**: Custom agents created by users via web interface
+- **Capabilities**: Flexible role definitions (supporting characters, environmental forces, etc.)
+- **Boundaries**: User-configured context and constraints
+- **Data Access**: User-defined scope of knowledge
+
+### Context Management
+
+The World Builder controls information flow between agents:
+
+- **Spatial Context**: Characters share context when in same location
+- **Interaction Context**: Direct conversation enables information exchange
+- **Experience Context**: Shared events create common knowledge
+- **Isolation Principle**: Characters maintain separate, limited perspectives
+- **Knowledge Gates**: World Builder decides when information becomes available
+
+### Data Storage Approaches
+
+Multiple approaches are under consideration for world/character state:
+
+**Vector Store (Embedding-based Retrieval)**
+
+- **Pros**: Semantic search, flexible queries, handles large contexts, natural language retrieval
+- **Cons**: Requires embedding model, more complex infrastructure, additional dependencies
+- **Best For**: Complex worlds, many characters, long narratives, rich semantic queries
+
+**Structured JSON (File-based State)**
+
+- **Pros**: Simple, transparent, easy to debug, version-controllable, no external dependencies
+- **Cons**: Manual indexing, linear search, size limits, less flexible queries
+- **Best For**: Smaller casts, focused narratives, MVP phase, development
+
+**Hybrid Approach (JSON + Embeddings)**
+
+- **Pros**: Core state in JSON, semantic search via embeddings, balanced complexity
+- **Cons**: Maintains two systems, synchronization needed
+- **Best For**: Production systems wanting simplicity with power
+
+*Decision will be made during Phase 3a implementation based on prototyping results.*
+
+### Concurrency Models
+
+**Agent Swarm Mode (Parallel Execution)**
+
+- Multiple agents reason simultaneously
+- World Builder orchestrates context sharing in real-time
+- Suitable for: Real-time collaboration, multiple LLM backends, high-performance systems
+
+**Sequential Mode (Single-threaded Execution)**
+
+- Agents operate turn-by-turn in coordinated sequence
+- Same architecture, serialized execution pattern
+- Suitable for: Single LLM instances, resource constraints, development/debugging
+
+### Integration with Current Features
+
+Agent swarm complements existing text operations:
+
+- **Expand**: Agents provide character-specific expansions with unique perspectives
+- **Refine**: World Builder ensures consistency across character viewpoints
+- **Revise**: Agents negotiate narrative changes while maintaining their perspectives
+- **Synopsis**: Each agent maintains character-specific understanding of events
+
+The current stateless operations remain valuable for:
+
+- Quick edits without full world state
+- Early drafts before character establishment
+- Targeted improvements to specific passages
+- Single-pass text enhancement
 
 ## Development Roadmap
 
@@ -95,11 +233,26 @@ Track progress in [GitHub Issues](https://github.com/jflournoy/story-time/issues
 
 ### Phase 3: Narrative Intelligence
 
-- [ ] Emotional tone analysis
+#### Phase 3a: Analysis Foundation
+
+- [ ] Emotional tone analysis and arc tracking
 - [ ] Character/object/location extraction
-- [ ] Timeline visualization
-- [ ] Event tracking
-- [ ] Complexity metrics
+- [ ] Timeline visualization and event tracking
+- [ ] Complexity metrics and pacing analysis
+- [ ] World state data models (JSON/vector store decision)
+
+#### Phase 3b: Agent Swarm Implementation
+
+- [ ] Agent profile system (user-defined agents via web UI)
+- [ ] Agent suggestion engine (auto-generate agents from user input)
+- [ ] World Builder agent architecture
+- [ ] Narrative Builder agent architecture
+- [ ] Character agent system with context isolation
+- [ ] Context management and sharing protocols
+- [ ] Agent decision-making and interaction patterns
+- [ ] Storage backend implementation
+- [ ] Serialized agent execution (MVP)
+- [ ] Parallel agent swarm mode (advanced)
 
 ### Phase 4: Advanced Features
 
@@ -178,6 +331,103 @@ POST /api/process
     // Future: detected emotional changes
     // Future: new characters/objects
     // Future: timeline implications
+  }
+}
+```
+
+### API Evolution: Agent Swarm
+
+The agent swarm architecture will extend the current API:
+
+```javascript
+// Current: Single-agent text operations
+POST /api/process
+{
+  "text": "Your story text...",
+  "operation": "expand|refine|revise|restructure",
+  "context": {
+    "synopsis": "Optional narrative overview..."
+  }
+}
+
+// Future: Multi-agent narrative development
+POST /api/agents/suggest
+{
+  "userInput": "Two people fall in love in the jungle",
+  "preferences": {
+    "genre": "romance",
+    "complexity": "medium"
+  }
+}
+
+// Response: Suggested agents and narrative outline
+{
+  "outline": "Expanded narrative outline...",
+  "suggestedAgents": [
+    {
+      "name": "Elena",
+      "role": "character",
+      "profile": {
+        "occupation": "Marine biologist",
+        "personality": ["curious", "determined"],
+        "goals": ["research mission", "discovery"]
+      }
+    },
+    {
+      "name": "Marco",
+      "role": "character",
+      "profile": {
+        "occupation": "Indigenous guide",
+        "personality": ["wise", "protective"],
+        "goals": ["preserve traditions", "guide safely"]
+      }
+    }
+  ],
+  "worldState": {
+    "setting": "Amazon rainforest research station",
+    "timeline": "Present day, 3-week expedition"
+  }
+}
+
+// Future: Agent interaction
+POST /api/agents/interact
+{
+  "worldState": "...",
+  "scenario": "Elena and Marco discover ancient ruins",
+  "activeAgents": ["Elena", "Marco"],
+  "agentMode": "parallel" | "sequential"
+}
+
+// Response: Agent decisions and narrative development
+{
+  "narrative": "Scene text with character perspectives...",
+  "agentDecisions": {
+    "Elena": {
+      "action": "Examines the carvings with scientific curiosity",
+      "reasoning": "Marine biology background makes her analytical"
+    },
+    "Marco": {
+      "action": "Warns about disturbing the sacred site",
+      "reasoning": "Cultural knowledge and protective instinct"
+    }
+  },
+  "worldStateUpdate": {
+    "sharedContext": ["Both at ruins", "Discovered artifact"],
+    "characterKnowledge": {
+      "Elena": ["Ruins are ancient", "Carvings depict water"],
+      "Marco": ["Site is sacred", "Ancestors left warnings"]
+    }
+  }
+}
+
+// Future: Storage abstraction
+POST /api/world/state
+{
+  "storageBackend": "json" | "vectorstore" | "hybrid",
+  "worldData": {
+    "locations": [...],
+    "characters": [...],
+    "timeline": [...]
   }
 }
 ```
