@@ -1,0 +1,31 @@
+[project]
+name = "story-time-llm-service"
+version = "0.1.0"
+description = "Local LLM inference service for Story Time using llama-cpp-python"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "llama-cpp-python>=0.2.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "huggingface-hub>=0.19.0",
+]
+
+[project.optional-dependencies]
+gpu = ["llama-cpp-python[cublas]>=0.2.0"]
+metal = ["llama-cpp-python[metal]>=0.2.0"]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",  # For testing FastAPI
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
