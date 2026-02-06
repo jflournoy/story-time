@@ -1,9 +1,30 @@
 import { Router, Request, Response } from 'express';
 import { LLMService } from '../services/llmService';
+import { HistoryService } from '../services/historyService';
 import { TextOperation } from '../models/types';
 
 export const textOperationsRouter = Router();
 const llmService = new LLMService();
+const historyService = new HistoryService();
+
+/**
+ * Helper to track an operation in history
+ */
+function trackOperation(type: 'expand' | 'refine' | 'revise' | 'restructure' | 'synopsis',
+  originalText: string,
+  resultText: string,
+  synopsis?: string) {
+  try {
+    historyService.recordOperation({
+      type,
+      originalText,
+      resultText,
+      synopsis,
+    });
+  } catch (error) {
+    console.error('Failed to track operation:', error);
+  }
+}
 
 /**
  * POST /api/text/expand
@@ -18,6 +39,7 @@ textOperationsRouter.post('/expand', async (req: Request, res: Response) => {
     }
 
     const result = await llmService.expand(text, synopsis);
+    trackOperation('expand', text, result, synopsis);
     res.json({ operation: 'expand', result });
   } catch (error) {
     console.error('Expand operation error:', error);
@@ -38,6 +60,7 @@ textOperationsRouter.post('/refine', async (req: Request, res: Response) => {
     }
 
     const result = await llmService.refine(text, synopsis);
+    trackOperation('refine', text, result, synopsis);
     res.json({ operation: 'refine', result });
   } catch (error) {
     console.error('Refine operation error:', error);
@@ -58,6 +81,7 @@ textOperationsRouter.post('/revise', async (req: Request, res: Response) => {
     }
 
     const result = await llmService.revise(text, synopsis);
+    trackOperation('revise', text, result, synopsis);
     res.json({ operation: 'revise', result });
   } catch (error) {
     console.error('Revise operation error:', error);
@@ -78,6 +102,7 @@ textOperationsRouter.post('/restructure', async (req: Request, res: Response) =>
     }
 
     const result = await llmService.restructure(text, synopsis);
+    trackOperation('restructure', text, result, synopsis);
     res.json({ operation: 'restructure', result });
   } catch (error) {
     console.error('Restructure operation error:', error);

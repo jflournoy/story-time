@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import { textOperationsRouter } from './textOperations';
 import { exportRouter } from './export';
+import { historyRouter } from './history';
 
 export const router = Router();
 
 // API routes
 router.use('/text', textOperationsRouter);
 router.use('/export', exportRouter);
+router.use('/history', historyRouter);
 
 // API info
 router.get('/', (req, res) => {
@@ -17,6 +19,7 @@ router.get('/', (req, res) => {
       health: '/health',
       textOperations: '/api/text',
       export: '/api/export',
+      history: '/api/history',
     },
   });
 });

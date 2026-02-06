@@ -197,6 +197,140 @@
             opacity: 0.6;
             cursor: not-allowed;
         }
+
+        .history-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-header h3 {
+            color: #333;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .history-stats {
+            font-size: 12px;
+            color: #666;
+            background: #f9f9f9;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item-info {
+            flex: 1;
+        }
+
+        .history-operation {
+            font-weight: 600;
+            color: #2196F3;
+            margin-bottom: 4px;
+        }
+
+        .history-timestamp {
+            color: #999;
+            font-size: 11px;
+        }
+
+        .history-preview {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 12px;
+        }
+
+        .history-actions button {
+            padding: 4px 8px;
+            font-size: 11px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .history-actions button:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        .history-empty {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        .history-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-history {
+            padding: 8px 12px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-history:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        .btn-history.danger {
+            color: #f44336;
+            border-color: #f44336;
+        }
+
+        .btn-history.danger:hover {
+            background: #ffebee;
+        }
     </style>
 </head>
 <body>
@@ -237,6 +371,25 @@
         <div class="result" id="result">
             <h3 id="resultTitle">Result:</h3>
             <pre id="resultText"></pre>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <h3>📚 Operation History</h3>
+                <div class="history-stats">
+                    <span id="historyCount">0 operations</span>
+                </div>
+            </div>
+
+            <div class="history-list" id="historyList">
+                <div class="history-empty">No operations yet. Start editing to see history here.</div>
+            </div>
+
+            <div class="history-controls">
+                <button class="btn-history" onclick="refreshHistory()">🔄 Refresh</button>
+                <button class="btn-history" onclick="downloadHistory()">📥 Download History</button>
+                <button class="btn-history danger" onclick="clearHistoryConfirm()">🗑️ Clear All</button>
+            </div>
         </div>
     </div>
 
@@ -411,12 +564,153 @@
             URL.revokeObjectURL(url);
         }
 
+        // History management functions
+        async function refreshHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/history`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch history');
+                }
+
+                displayHistory(data.history);
+                updateHistoryCount(data.count);
+            } catch (error) {
+                showStatus(`Failed to load history: ${error.message}`, 'error');
+            }
+        }
+
+        function displayHistory(history) {
+            const historyList = document.getElementById('historyList');
+
+            if (!history || history.length === 0) {
+                historyList.innerHTML = '<div class="history-empty">No operations yet. Start editing to see history here.</div>';
+                return;
+            }
+
+            // Display history in reverse chronological order (newest first)
+            const sortedHistory = [...history].reverse();
+
+            historyList.innerHTML = sortedHistory.map(entry => {
+                const date = new Date(entry.timestamp);
+                const timeStr = date.toLocaleTimeString();
+                const preview = entry.resultText.substring(0, 60);
+
+                return `
+                    <div class="history-item">
+                        <div class="history-item-info">
+                            <div class="history-operation">${entry.type.toUpperCase()}</div>
+                            <div class="history-timestamp">${timeStr}</div>
+                            <div class="history-preview">${preview}${entry.resultText.length > 60 ? '...' : ''}</div>
+                        </div>
+                        <div class="history-actions">
+                            <button onclick="viewHistoryItem('${entry.id}')">👁️</button>
+                            <button onclick="deleteHistoryItem('${entry.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateHistoryCount(count) {
+            const countEl = document.getElementById('historyCount');
+            countEl.textContent = `${count} ${count === 1 ? 'operation' : 'operations'}`;
+        }
+
+        async function viewHistoryItem(id) {
+            try {
+                const response = await fetch(`${API_BASE}/history/${id}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to fetch operation');
+                }
+
+                const op = data.operation;
+                const resultDiv = document.getElementById('result');
+                const resultTitle = document.getElementById('resultTitle');
+                const resultText = document.getElementById('resultText');
+
+                resultTitle.textContent = `${op.type.toUpperCase()} Result (${new Date(op.timestamp).toLocaleTimeString()})`;
+                resultText.textContent = op.resultText;
+                resultDiv.classList.remove('error');
+                resultDiv.classList.add('show');
+                showStatus('Viewing history item', 'success');
+            } catch (error) {
+                showStatus(`Failed to view history item: ${error.message}`, 'error');
+            }
+        }
+
+        async function deleteHistoryItem(id) {
+            if (!confirm('Delete this history item?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/history/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete history item');
+                }
+
+                refreshHistory();
+                showStatus('History item deleted', 'success');
+            } catch (error) {
+                showStatus(`Failed to delete: ${error.message}`, 'error');
+            }
+        }
+
+        async function downloadHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/history/export/json`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to export history');
+                }
+
+                const text = await response.text();
+                downloadContent(text, `history-${new Date().toISOString().slice(0, 10)}.json`);
+                showStatus('History exported successfully!', 'success');
+            } catch (error) {
+                showStatus(`Failed to export: ${error.message}`, 'error');
+            }
+        }
+
+        function clearHistoryConfirm() {
+            if (!confirm('This will delete ALL history. Are you sure?')) {
+                return;
+            }
+
+            clearAllHistory();
+        }
+
+        async function clearAllHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/history`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to clear history');
+                }
+
+                refreshHistory();
+                showStatus('All history cleared', 'success');
+            } catch (error) {
+                showStatus(`Failed to clear history: ${error.message}`, 'error');
+            }
+        }
+
         // Check API health on load
         async function checkHealth() {
             try {
                 const response = await fetch('http://localhost:3000/health');
                 if (response.ok) {
                     showStatus('Connected to Story Time server', 'success');
+                    refreshHistory();
                 }
             } catch (error) {
                 showStatus('Cannot connect to server. Please start the backend.', 'error');
