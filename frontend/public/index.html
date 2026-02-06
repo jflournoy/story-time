@@ -157,6 +157,46 @@
         .status.show {
             display: block;
         }
+
+        .export-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+
+        .export-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-export {
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-export:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        .btn-export:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -179,6 +219,15 @@
             <button class="btn-secondary" onclick="processText('refine')">🔍 Refine</button>
             <button class="btn-tertiary" onclick="processText('revise')">📝 Revise</button>
             <button class="btn-secondary" onclick="generateSynopsis()">💡 Generate Synopsis</button>
+        </div>
+
+        <div class="export-section">
+            <h3>Export Your Work</h3>
+            <div class="export-buttons">
+                <button class="btn-export" onclick="exportAs('text')">📄 Export as Text</button>
+                <button class="btn-export" onclick="exportAs('markdown')">📋 Export as Markdown</button>
+                <button class="btn-export" onclick="exportAs('json')">⚙️ Export as JSON</button>
+            </div>
         </div>
 
         <div class="loading" id="loading">
@@ -306,6 +355,60 @@
             setTimeout(() => {
                 status.classList.remove('show');
             }, 3000);
+        }
+
+        async function exportAs(format) {
+            const text = document.getElementById('text').value;
+            const synopsis = document.getElementById('synopsis').value;
+
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/export/${format}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text, synopsis: synopsis || undefined }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Export failed');
+                }
+
+                // Download the exported content
+                downloadContent(data.content, `story-export.${getFileExtension(format)}`);
+                showStatus(`Exported as ${format} successfully!`, 'success');
+
+            } catch (error) {
+                showStatus(`Export failed: ${error.message}`, 'error');
+            }
+        }
+
+        function getFileExtension(format) {
+            const extensions = {
+                text: 'txt',
+                markdown: 'md',
+                json: 'json'
+            };
+            return extensions[format] || format;
+        }
+
+        function downloadContent(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         // Check API health on load
