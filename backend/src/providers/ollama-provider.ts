@@ -28,6 +28,10 @@ export class OllamaProvider implements LLMProvider {
     return this.complete(this.buildPrompt('revise', text, synopsis));
   }
 
+  async restructure(text: string, synopsis?: string): Promise<string> {
+    return this.complete(this.buildPrompt('restructure', text, synopsis));
+  }
+
   async generateSynopsis(text: string): Promise<string> {
     return this.complete(this.buildPrompt('synopsis', text));
   }
@@ -52,7 +56,7 @@ export class OllamaProvider implements LLMProvider {
   }
 
   private buildPrompt(
-    operation: 'expand' | 'refine' | 'revise' | 'synopsis',
+    operation: 'expand' | 'refine' | 'revise' | 'restructure' | 'synopsis',
     text: string,
     synopsis?: string
   ): string {
@@ -82,6 +86,14 @@ Polish the writing while preserving the original narrative.`,
 - Reworking weak passages for better impact
 
 Restructure for maximum narrative effectiveness.`,
+
+      restructure: `You are a narrative architect. Restructure the following text by:
+- Reorganizing content for improved narrative flow
+- Strengthening the logical progression of events
+- Enhancing the overall structure and organization
+- Improving the reader's journey through the story
+
+Create a reorganized version that maintains all original content while presenting it in a better order.`,
 
       synopsis: `Analyze the following text and create a concise synopsis that captures the key narrative elements, themes, and structure.
 

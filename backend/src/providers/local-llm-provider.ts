@@ -30,6 +30,10 @@ export class LocalLLMProvider implements LLMProvider {
     return this.complete(this.buildPrompt('revise', text, synopsis));
   }
 
+  async restructure(text: string, synopsis?: string): Promise<string> {
+    return this.complete(this.buildPrompt('restructure', text, synopsis));
+  }
+
   async generateSynopsis(text: string): Promise<string> {
     return this.complete(this.buildPrompt('synopsis', text));
   }
@@ -62,6 +66,7 @@ export class LocalLLMProvider implements LLMProvider {
       expand: 'Expand with more detail and description',
       refine: 'Refine for clarity and style',
       revise: 'Revise structure and pacing',
+      restructure: 'Reorganize content for improved narrative flow',
       synopsis: 'Generate a brief synopsis',
     };
     return `${contextLine}${instructions[operation]}:\n\n${text}\n\nResult:`;

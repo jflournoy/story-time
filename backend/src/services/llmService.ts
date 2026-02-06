@@ -30,6 +30,13 @@ export class LLMService {
   }
 
   /**
+   * Restructure text organization and flow
+   */
+  async restructure(text: string, synopsis?: string): Promise<string> {
+    return this.provider.restructure(text, synopsis);
+  }
+
+  /**
    * Generate a synopsis from text
    */
   async generateSynopsis(text: string): Promise<string> {

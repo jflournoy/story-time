@@ -66,6 +66,26 @@ textOperationsRouter.post('/revise', async (req: Request, res: Response) => {
 });
 
 /**
+ * POST /api/text/restructure
+ * Restructure text organization and flow
+ */
+textOperationsRouter.post('/restructure', async (req: Request, res: Response) => {
+  try {
+    const { text, synopsis } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required' });
+    }
+
+    const result = await llmService.restructure(text, synopsis);
+    res.json({ operation: 'restructure', result });
+  } catch (error) {
+    console.error('Restructure operation error:', error);
+    res.status(500).json({ error: 'Failed to restructure text' });
+  }
+});
+
+/**
  * POST /api/text/synopsis
  * Generate a synopsis from text
  */

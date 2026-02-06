@@ -6,6 +6,7 @@ import express, { Express } from 'express';
 const mockExpand = vi.fn();
 const mockRefine = vi.fn();
 const mockRevise = vi.fn();
+const mockRestructure = vi.fn();
 const mockGenerateSynopsis = vi.fn();
 
 // Mock the LLMService before importing the router
@@ -15,6 +16,7 @@ vi.mock('../../src/services/llmService', () => {
       expand: mockExpand,
       refine: mockRefine,
       revise: mockRevise,
+      restructure: mockRestructure,
       generateSynopsis: mockGenerateSynopsis,
     })),
   };
@@ -232,6 +234,80 @@ describe('Text Operations API', () => {
 
       expect(response.body).toEqual({
         error: 'Failed to revise text',
+      });
+    });
+  });
+
+  describe('POST /api/text/restructure', () => {
+    it('should restructure text successfully', async () => {
+      const inputText = 'Start. Middle. End. Start. Middle. End. Conclusion.';
+      const restructuredText = 'The narrative unfolds logically through beginning, center, and conclusion.';
+
+      mockRestructure.mockResolvedValue(restructuredText);
+
+      const response = await request(app)
+        .post('/api/text/restructure')
+        .send({ text: inputText })
+        .expect(200);
+
+      expect(response.body).toEqual({
+        operation: 'restructure',
+        result: restructuredText,
+      });
+      expect(mockRestructure).toHaveBeenCalledWith(inputText, undefined);
+    });
+
+    it('should restructure text with synopsis', async () => {
+      const inputText = 'Random events. Chaotic order. Unclear flow.';
+      const synopsis = 'A mystery unfolding.';
+      const restructuredText = 'Clues emerge, building suspense toward revelation.';
+
+      mockRestructure.mockResolvedValue(restructuredText);
+
+      const response = await request(app)
+        .post('/api/text/restructure')
+        .send({ text: inputText, synopsis })
+        .expect(200);
+
+      expect(response.body).toEqual({
+        operation: 'restructure',
+        result: restructuredText,
+      });
+      expect(mockRestructure).toHaveBeenCalledWith(inputText, synopsis);
+    });
+
+    it('should return 400 if text is missing', async () => {
+      const response = await request(app)
+        .post('/api/text/restructure')
+        .send({})
+        .expect(400);
+
+      expect(response.body).toEqual({
+        error: 'Text is required',
+      });
+    });
+
+    it('should return 400 if text is empty string', async () => {
+      const response = await request(app)
+        .post('/api/text/restructure')
+        .send({ text: '' })
+        .expect(400);
+
+      expect(response.body).toEqual({
+        error: 'Text is required',
+      });
+    });
+
+    it('should return 500 on service error', async () => {
+      mockRestructure.mockRejectedValue(new Error('Restructure failed'));
+
+      const response = await request(app)
+        .post('/api/text/restructure')
+        .send({ text: 'test' })
+        .expect(500);
+
+      expect(response.body).toEqual({
+        error: 'Failed to restructure text',
       });
     });
   });
