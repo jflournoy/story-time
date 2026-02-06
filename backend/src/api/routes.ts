@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { textOperationsRouter } from './textOperations';
 import { exportRouter } from './export';
 import { historyRouter } from './history';
+import { diffRouter } from './diff';
 
 export const router = Router();
 
@@ -9,6 +10,7 @@ export const router = Router();
 router.use('/text', textOperationsRouter);
 router.use('/export', exportRouter);
 router.use('/history', historyRouter);
+router.use('/diff', diffRouter);
 
 // API info
 router.get('/', (req, res) => {
@@ -20,6 +22,7 @@ router.get('/', (req, res) => {
       textOperations: '/api/text',
       export: '/api/export',
       history: '/api/history',
+      diff: '/api/diff',
     },
   });
 });
