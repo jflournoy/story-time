@@ -28,10 +28,13 @@ app.use('/api', apiRouter);
 app.use(errorHandler);
 
 // Start server
-app.listen(port, () => {
-  console.log(`🚀 Story Time server running on port ${port}`);
-  console.log(`📝 Health check: http://localhost:${port}/health`);
-  console.log(`🔌 API endpoint: http://localhost:${port}/api`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`🚀 Story Time server running on port ${port}`);
+    console.log(`📝 Health check: http://localhost:${port}/health`);
+    console.log(`🔌 API endpoint: http://localhost:${port}/api`);
+  });
+}
 
 export default app;
+export { app };
