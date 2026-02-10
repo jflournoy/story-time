@@ -482,12 +482,414 @@
         .btn-toggle-diff:hover {
             background: #e3f2fd;
         }
+
+        /* Complexity Analysis Styles */
+        .complexity-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+
+        .complexity-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .complexity-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn-complexity {
+            padding: 10px 16px;
+            border: 1px solid #9c27b0;
+            background: white;
+            color: #9c27b0;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-complexity:hover {
+            background: #f3e5f5;
+        }
+
+        .btn-complexity.primary {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .btn-complexity.primary:hover {
+            background: #7b1fa2;
+        }
+
+        .btn-complexity:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .complexity-results {
+            display: none;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .complexity-results.show {
+            display: block;
+        }
+
+        .complexity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .complexity-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .complexity-card h4 {
+            color: #9c27b0;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .complexity-card .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        .complexity-card .metric:last-child {
+            border-bottom: none;
+        }
+
+        .complexity-card .metric-label {
+            color: #666;
+        }
+
+        .complexity-card .metric-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .complexity-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+            border-radius: 8px;
+            color: white;
+        }
+
+        .complexity-score .score-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .complexity-score .score-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .recommendations-list {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            border-radius: 6px;
+        }
+
+        .recommendations-list h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .recommendations-list ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .recommendations-list li {
+            margin-bottom: 6px;
+        }
+
+        .thread-list, .character-list, .scene-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .thread-item, .character-item, .scene-item {
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .thread-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .thread-status.active { background: #e8f5e9; color: #2e7d32; }
+        .thread-status.dormant { background: #fff3e0; color: #e65100; }
+        .thread-status.resolved { background: #e3f2fd; color: #1565c0; }
+
+        /* Session Management Styles */
+        .session-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .session-header h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .session-selector {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .btn-session {
+            padding: 8px 16px;
+            border: 1px solid #4CAF50;
+            background: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-session:hover {
+            background: #45a049;
+        }
+
+        .btn-session.secondary {
+            background: white;
+            color: #4CAF50;
+        }
+
+        .btn-session.secondary:hover {
+            background: #f1f8f4;
+        }
+
+        /* Analysis Sections Styles */
+        .analysis-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+
+        .analysis-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .analysis-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn-analysis {
+            padding: 10px 16px;
+            border: 1px solid #2196F3;
+            background: white;
+            color: #2196F3;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-analysis:hover {
+            background: #e3f2fd;
+        }
+
+        .btn-analysis.primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-analysis.primary:hover {
+            background: #1976D2;
+        }
+
+        .btn-analysis.tone {
+            border-color: #FF5722;
+            color: #FF5722;
+        }
+
+        .btn-analysis.tone:hover {
+            background: #ffebee;
+        }
+
+        .btn-analysis.tone.primary {
+            background: #FF5722;
+            color: white;
+        }
+
+        .btn-analysis.tone.primary:hover {
+            background: #E64A19;
+        }
+
+        .btn-analysis.entity {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .btn-analysis.entity:hover {
+            background: #e8f5e9;
+        }
+
+        .btn-analysis.entity.primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-analysis.entity.primary:hover {
+            background: #45a049;
+        }
+
+        .btn-analysis.timeline {
+            border-color: #FF9800;
+            color: #FF9800;
+        }
+
+        .btn-analysis.timeline:hover {
+            background: #fff3e0;
+        }
+
+        .btn-analysis.timeline.primary {
+            background: #FF9800;
+            color: white;
+        }
+
+        .btn-analysis.timeline.primary:hover {
+            background: #F57C00;
+        }
+
+        .btn-analysis:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .analysis-results {
+            display: none;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .analysis-results.show {
+            display: block;
+        }
+
+        .results-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .entity-list, .event-list, .tone-segments {
+            margin-top: 15px;
+        }
+
+        .entity-item, .event-item, .tone-segment {
+            padding: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .entity-name, .event-description {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .entity-details, .event-details {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .tone-value {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .tone-positive { background: #e8f5e9; color: #2e7d32; }
+        .tone-negative { background: #ffebee; color: #c62828; }
+        .tone-neutral { background: #f5f5f5; color: #666; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>📖 Story Time</h1>
         <p class="subtitle">AI-assisted narrative development using local LLMs</p>
+
+        <div class="session-section">
+            <div class="session-header">
+                <h3>📁 Session:</h3>
+                <select class="session-selector" id="sessionSelector" onchange="switchSession()">
+                    <option value="">No Session (In-Memory Only)</option>
+                </select>
+                <button class="btn-session" onclick="createNewSession()">+ New Session</button>
+                <button class="btn-session secondary" onclick="manageSessions()">Manage</button>
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="synopsis">Narrative Context (Optional Synopsis):</label>
@@ -503,6 +905,7 @@
             <button class="btn-primary" onclick="processText('expand')">✨ Expand</button>
             <button class="btn-secondary" onclick="processText('refine')">🔍 Refine</button>
             <button class="btn-tertiary" onclick="processText('revise')">📝 Revise</button>
+            <button class="btn-secondary" onclick="processText('restructure')">🔄 Restructure</button>
             <button class="btn-secondary" onclick="generateSynopsis()">💡 Generate Synopsis</button>
         </div>
 
@@ -512,6 +915,60 @@
                 <button class="btn-export" onclick="exportAs('text')">📄 Export as Text</button>
                 <button class="btn-export" onclick="exportAs('markdown')">📋 Export as Markdown</button>
                 <button class="btn-export" onclick="exportAs('json')">⚙️ Export as JSON</button>
+            </div>
+        </div>
+
+        <div class="complexity-section">
+            <h3>📊 Narrative Complexity Analysis</h3>
+            <div class="complexity-buttons">
+                <button class="btn-complexity primary" onclick="analyzeFullComplexity()">🔬 Full Analysis</button>
+                <button class="btn-complexity" onclick="analyzeThreads()">🧵 Plot Threads</button>
+                <button class="btn-complexity" onclick="analyzeDensity()">📊 Narrative Density</button>
+                <button class="btn-complexity" onclick="analyzeCharacters()">👥 Characters</button>
+                <button class="btn-complexity" onclick="analyzeScenes()">🎬 Scenes</button>
+                <button class="btn-complexity" onclick="analyzeReadability()">📖 Readability</button>
+                <button class="btn-complexity" onclick="compareComplexity()">⚖️ Compare Versions</button>
+            </div>
+            <div class="complexity-results" id="complexityResults">
+                <div id="complexityContent"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>🎭 Emotional Tone Analysis</h3>
+            <div class="analysis-buttons">
+                <button class="btn-analysis tone primary" onclick="analyzeTone()">📊 Analyze Tone</button>
+                <button class="btn-analysis tone" onclick="compareTone()">⚖️ Compare Tone</button>
+                <button class="btn-analysis tone" onclick="computeEmotionalArc()">📈 Emotional Arc</button>
+            </div>
+            <div class="analysis-results" id="toneResults">
+                <div id="toneContent"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>🏷️ Entity Extraction</h3>
+            <div class="analysis-buttons">
+                <button class="btn-analysis entity primary" onclick="extractEntities()">🔍 Extract Entities</button>
+                <button class="btn-analysis entity" onclick="getEntitySummary()">📋 Entity Summary</button>
+                <button class="btn-analysis entity" onclick="compareEntities()">⚖️ Compare Entities</button>
+            </div>
+            <div class="analysis-results" id="entityResults">
+                <div id="entityContent"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>⏱️ Timeline & Events Analysis</h3>
+            <div class="analysis-buttons">
+                <button class="btn-analysis timeline primary" onclick="extractEvents()">📅 Extract Events</button>
+                <button class="btn-analysis timeline" onclick="buildTimeline()">🗓️ Build Timeline</button>
+                <button class="btn-analysis timeline" onclick="analyzePacing()">⚡ Analyze Pacing</button>
+                <button class="btn-analysis timeline" onclick="detectStructure()">🏗️ Detect Structure</button>
+                <button class="btn-analysis timeline" onclick="compareTimelines()">⚖️ Compare Timelines</button>
+            </div>
+            <div class="analysis-results" id="timelineResults">
+                <div id="timelineContent"></div>
             </div>
         </div>
 
@@ -582,7 +1039,7 @@
     <div class="status" id="status"></div>
 
     <script>
-        const API_BASE = 'http://localhost:3000/api';
+        const API_BASE = 'http://localhost:4001/api';
 
         async function processText(operation) {
             const text = document.getElementById('text').value;
@@ -1034,13 +1491,1199 @@
             return div.innerHTML;
         }
 
+        // Complexity Analysis Functions
+        async function analyzeFullComplexity() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showComplexityLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/complexity/report`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Analysis failed');
+
+                displayFullComplexityReport(data);
+                showStatus('Complexity analysis complete!', 'success');
+            } catch (error) {
+                showStatus(`Analysis failed: ${error.message}`, 'error');
+                hideComplexityResults();
+            }
+        }
+
+        async function analyzeThreads() {
+            await analyzeComplexityType('threads', 'Plot Threads', displayThreads);
+        }
+
+        async function analyzeCharacters() {
+            await analyzeComplexityType('characters', 'Characters', displayCharacters);
+        }
+
+        async function analyzeScenes() {
+            await analyzeComplexityType('scenes', 'Scenes', displayScenes);
+        }
+
+        async function analyzeReadability() {
+            await analyzeComplexityType('readability', 'Readability', displayReadability);
+        }
+
+        async function analyzeComplexityType(endpoint, title, displayFn) {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showComplexityLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/complexity/${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Analysis failed');
+
+                displayFn(data);
+                showStatus(`${title} analysis complete!`, 'success');
+            } catch (error) {
+                showStatus(`Analysis failed: ${error.message}`, 'error');
+                hideComplexityResults();
+            }
+        }
+
+        function showComplexityLoading() {
+            const results = document.getElementById('complexityResults');
+            const content = document.getElementById('complexityContent');
+            content.innerHTML = '<p style="text-align: center; color: #666;">⏳ Analyzing narrative complexity...</p>';
+            results.classList.add('show');
+        }
+
+        function hideComplexityResults() {
+            document.getElementById('complexityResults').classList.remove('show');
+        }
+
+        function displayFullComplexityReport(data) {
+            const content = document.getElementById('complexityContent');
+            const scorePercent = Math.round((data.overallComplexity || 0) * 100);
+
+            content.innerHTML = `
+                <div class="complexity-score">
+                    <div class="score-value">${scorePercent}%</div>
+                    <div class="score-label">Overall Complexity Score</div>
+                </div>
+
+                <div class="complexity-grid">
+                    ${renderThreadsCard(data.plotThreads)}
+                    ${renderCharactersCard(data.characterInvolvement)}
+                    ${renderScenesCard(data.sceneComplexity)}
+                    ${renderReadabilityCard(data.readability)}
+                    ${renderDensityCard(data.narrativeDensity)}
+                </div>
+
+                ${data.recommendations && data.recommendations.length > 0 ? `
+                <div class="recommendations-list">
+                    <h4>💡 Recommendations</h4>
+                    <ul>
+                        ${data.recommendations.map(r => `<li>${formatRecommendation(r)}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        function renderThreadsCard(threads) {
+            if (!threads) return '';
+            return `
+                <div class="complexity-card">
+                    <h4>🧵 Plot Threads</h4>
+                    <div class="metric">
+                        <span class="metric-label">Active Threads</span>
+                        <span class="metric-value">${threads.threads?.filter(t => t.status === 'active').length || 0}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Thread Complexity</span>
+                        <span class="metric-value">${Math.round((threads.complexityScore || 0) * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Interweaving</span>
+                        <span class="metric-value">${threads.interweaving?.switchCount || 0} switches</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCharactersCard(chars) {
+            if (!chars) return '';
+            const charCount = Object.keys(chars.characters || {}).length;
+            return `
+                <div class="complexity-card">
+                    <h4>👥 Characters</h4>
+                    <div class="metric">
+                        <span class="metric-label">Total Characters</span>
+                        <span class="metric-value">${charCount}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Protagonist</span>
+                        <span class="metric-value">${chars.roles?.protagonist || 'Unknown'}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">POV Switches</span>
+                        <span class="metric-value">${chars.povAnalysis?.switches || 0}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderScenesCard(scenes) {
+            if (!scenes) return '';
+            return `
+                <div class="complexity-card">
+                    <h4>🎬 Scenes</h4>
+                    <div class="metric">
+                        <span class="metric-label">Scene Count</span>
+                        <span class="metric-value">${scenes.scenes?.length || 0}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Setting Changes</span>
+                        <span class="metric-value">${scenes.settingChangeCount || 0}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Transition Smoothness</span>
+                        <span class="metric-value">${Math.round((scenes.overallSmoothness || 0) * 100)}%</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderReadabilityCard(read) {
+            if (!read) return '';
+            return `
+                <div class="complexity-card">
+                    <h4>📖 Readability</h4>
+                    <div class="metric">
+                        <span class="metric-label">Score</span>
+                        <span class="metric-value">${Math.round((read.overallScore || 0) * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Level</span>
+                        <span class="metric-value">${read.readabilityLevel || 'Unknown'}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Avg Sentence Length</span>
+                        <span class="metric-value">${read.avgSentenceLength?.toFixed(1) || 0} words</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDensityCard(density) {
+            if (!density) return '';
+            return `
+                <div class="complexity-card">
+                    <h4>📊 Narrative Density</h4>
+                    <div class="metric">
+                        <span class="metric-label">Ideas per Paragraph</span>
+                        <span class="metric-value">${density.averageDensity?.toFixed(1) || 0}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Exposition</span>
+                        <span class="metric-value">${Math.round((density.contentBreakdown?.exposition || 0) * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Action</span>
+                        <span class="metric-value">${Math.round((density.contentBreakdown?.action || 0) * 100)}%</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayThreads(data) {
+            const content = document.getElementById('complexityContent');
+            content.innerHTML = `
+                <div class="complexity-card" style="max-width: 100%;">
+                    <h4>🧵 Plot Threads Analysis</h4>
+                    <div class="metric">
+                        <span class="metric-label">Complexity Score</span>
+                        <span class="metric-value">${Math.round((data.complexityScore || 0) * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Thread Switches</span>
+                        <span class="metric-value">${data.interweaving?.switchCount || 0}</span>
+                    </div>
+                    <div class="thread-list" style="margin-top: 15px;">
+                        ${(data.threads || []).map(t => `
+                            <div class="thread-item">
+                                <strong>${t.name}</strong>
+                                <span class="thread-status ${t.status}">${t.status}</span>
+                                <div style="margin-top: 4px; color: #666;">${t.description}</div>
+                                ${t.characters?.length ? `<div style="font-size: 11px; color: #999; margin-top: 2px;">Characters: ${t.characters.join(', ')}</div>` : ''}
+                            </div>
+                        `).join('') || '<p style="color: #999;">No threads detected</p>'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        function displayCharacters(data) {
+            const content = document.getElementById('complexityContent');
+            const chars = Object.entries(data.characters || {});
+            content.innerHTML = `
+                <div class="complexity-card" style="max-width: 100%;">
+                    <h4>👥 Character Analysis</h4>
+                    <div class="metric">
+                        <span class="metric-label">Protagonist</span>
+                        <span class="metric-value">${data.roles?.protagonist || 'Unknown'}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">POV Switches</span>
+                        <span class="metric-value">${data.povAnalysis?.switches || 0}</span>
+                    </div>
+                    <div class="character-list" style="margin-top: 15px;">
+                        ${chars.map(([name, stats]) => `
+                            <div class="character-item">
+                                <strong>${name}</strong>
+                                <span style="float: right;">${stats.mentions} mentions (${Math.round(stats.frequency * 100)}%)</span>
+                            </div>
+                        `).join('') || '<p style="color: #999;">No characters detected</p>'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        function displayScenes(data) {
+            const content = document.getElementById('complexityContent');
+            content.innerHTML = `
+                <div class="complexity-card" style="max-width: 100%;">
+                    <h4>🎬 Scene Analysis</h4>
+                    <div class="metric">
+                        <span class="metric-label">Total Scenes</span>
+                        <span class="metric-value">${data.scenes?.length || 0}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Setting Changes</span>
+                        <span class="metric-value">${data.settingChangeCount || 0}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Transition Smoothness</span>
+                        <span class="metric-value">${Math.round((data.overallSmoothness || 0) * 100)}%</span>
+                    </div>
+                    <div class="scene-list" style="margin-top: 15px;">
+                        ${(data.scenes || []).map(s => `
+                            <div class="scene-item">
+                                <strong>${s.location}</strong>
+                                <span style="float: right; font-size: 11px; color: #666;">
+                                    ${Math.round(s.startPosition * 100)}% - ${Math.round(s.endPosition * 100)}%
+                                </span>
+                            </div>
+                        `).join('') || '<p style="color: #999;">No scenes detected</p>'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        function displayReadability(data) {
+            const content = document.getElementById('complexityContent');
+            content.innerHTML = `
+                <div class="complexity-card" style="max-width: 100%;">
+                    <h4>📖 Readability Analysis</h4>
+                    <div class="metric">
+                        <span class="metric-label">Overall Score</span>
+                        <span class="metric-value">${Math.round((data.overallScore || 0) * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Readability Level</span>
+                        <span class="metric-value">${data.readabilityLevel || 'Unknown'}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Avg Sentence Length</span>
+                        <span class="metric-value">${data.avgSentenceLength?.toFixed(1) || 0} words</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Vocabulary Richness</span>
+                        <span class="metric-value">${Math.round((data.vocabularyRichness || 0) * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Paragraph Count</span>
+                        <span class="metric-value">${data.paragraphCount || 0}</span>
+                    </div>
+                    ${data.recommendations?.length ? `
+                    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
+                        <strong style="font-size: 12px; color: #666;">Suggestions:</strong>
+                        <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 12px;">
+                            ${data.recommendations.map(r => `<li>${formatRecommendation(r)}</li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        function formatRecommendation(rec) {
+            const formatted = rec.replace(/_/g, ' ');
+            return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+        }
+
+        // ============================================
+        // SESSION MANAGEMENT FUNCTIONS
+        // ============================================
+
+        let currentSessionId = null;
+
+        async function loadSessions() {
+            try {
+                const response = await fetch(`${API_BASE}/sessions`);
+                if (!response.ok) throw new Error('Failed to load sessions');
+
+                const sessions = await response.json();
+                const selector = document.getElementById('sessionSelector');
+
+                // Clear existing options except the first
+                selector.innerHTML = '<option value="">No Session (In-Memory Only)</option>';
+
+                // Add session options
+                sessions.forEach(session => {
+                    const option = document.createElement('option');
+                    option.value = session.id;
+                    option.textContent = `${session.title} (${session.operationCount} ops)`;
+                    selector.appendChild(option);
+                });
+
+                // Select current session if any
+                if (currentSessionId) {
+                    selector.value = currentSessionId;
+                }
+            } catch (error) {
+                console.error('Failed to load sessions:', error);
+            }
+        }
+
+        async function createNewSession() {
+            const title = prompt('Enter session title:');
+            if (!title) return;
+
+            const description = prompt('Enter session description (optional):');
+
+            try {
+                const response = await fetch(`${API_BASE}/sessions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, description: description || undefined }),
+                });
+
+                if (!response.ok) throw new Error('Failed to create session');
+
+                const session = await response.json();
+                currentSessionId = session.id;
+
+                await loadSessions();
+                showStatus(`Session "${title}" created!`, 'success');
+            } catch (error) {
+                showStatus(`Failed to create session: ${error.message}`, 'error');
+            }
+        }
+
+        async function switchSession() {
+            const selector = document.getElementById('sessionSelector');
+            currentSessionId = selector.value || null;
+
+            if (currentSessionId) {
+                showStatus(`Switched to session`, 'success');
+            } else {
+                showStatus('Using in-memory mode (no persistence)', 'success');
+            }
+        }
+
+        async function manageSessions() {
+            await loadSessions();
+            alert('Session management: Use the dropdown to switch sessions. To delete a session, please use the API directly for now.');
+        }
+
+        // ============================================
+        // TONE ANALYSIS FUNCTIONS
+        // ============================================
+
+        async function analyzeTone() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('toneResults', 'toneContent', 'Analyzing emotional tone...');
+
+            try {
+                const response = await fetch(`${API_BASE}/analysis/tone`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, granularity: 'paragraph' }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Tone analysis failed');
+
+                displayToneAnalysis(data);
+                showStatus('Tone analysis complete!', 'success');
+            } catch (error) {
+                showStatus(`Tone analysis failed: ${error.message}`, 'error');
+                hideAnalysisResults('toneResults');
+            }
+        }
+
+        async function compareTone() {
+            const text = document.getElementById('text').value;
+            const resultText = document.getElementById('resultText').textContent;
+
+            if (!text.trim() || !resultText.trim()) {
+                showStatus('Please perform a text operation first to have two versions to compare', 'error');
+                return;
+            }
+
+            showAnalysisLoading('toneResults', 'toneContent', 'Comparing tone...');
+
+            try {
+                const response = await fetch(`${API_BASE}/analysis/compare`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ original: text, revised: resultText }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Tone comparison failed');
+
+                displayToneComparison(data);
+                showStatus('Tone comparison complete!', 'success');
+            } catch (error) {
+                showStatus(`Tone comparison failed: ${error.message}`, 'error');
+                hideAnalysisResults('toneResults');
+            }
+        }
+
+        async function computeEmotionalArc() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('toneResults', 'toneContent', 'Computing emotional arc...');
+
+            try {
+                // First analyze tone to get sentiments
+                const toneResponse = await fetch(`${API_BASE}/analysis/tone`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, granularity: 'paragraph' }),
+                });
+
+                const toneData = await toneResponse.json();
+                if (!toneResponse.ok) throw new Error(toneData.error || 'Tone analysis failed');
+
+                // Extract sentiment values
+                const sentiments = toneData.segments.map(seg => seg.sentiment);
+
+                // Compute arc
+                const arcResponse = await fetch(`${API_BASE}/analysis/arc`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sentiments }),
+                });
+
+                const arcData = await arcResponse.json();
+                if (!arcResponse.ok) throw new Error(arcData.error || 'Arc computation failed');
+
+                displayEmotionalArc(arcData, toneData.segments);
+                showStatus('Emotional arc computed!', 'success');
+            } catch (error) {
+                showStatus(`Emotional arc failed: ${error.message}`, 'error');
+                hideAnalysisResults('toneResults');
+            }
+        }
+
+        function displayToneAnalysis(data) {
+            const content = document.getElementById('toneContent');
+            content.innerHTML = `
+                <h4>Overall Tone: ${data.overallTone}</h4>
+                <p><strong>Dominant Emotion:</strong> ${data.dominantEmotion} (${Math.round(data.averageSentiment * 100)}%)</p>
+                <div class="tone-segments">
+                    <h5>Segments:</h5>
+                    ${data.segments.map((seg, i) => `
+                        <div class="tone-segment">
+                            <strong>Segment ${i + 1}</strong>
+                            <span class="tone-value tone-${getToneClass(seg.sentiment)}">${Math.round(seg.sentiment * 100)}%</span>
+                            <div style="margin-top: 4px; font-size: 12px; color: #666;">${seg.text.substring(0, 100)}...</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('toneResults').classList.add('show');
+        }
+
+        function displayToneComparison(data) {
+            const content = document.getElementById('toneContent');
+            content.innerHTML = `
+                <h4>Tone Comparison</h4>
+                <div class="metric">
+                    <span>Sentiment Change:</span>
+                    <span class="tone-value tone-${data.sentimentChange > 0 ? 'positive' : data.sentimentChange < 0 ? 'negative' : 'neutral'}">
+                        ${data.sentimentChange > 0 ? '+' : ''}${Math.round(data.sentimentChange * 100)}%
+                    </span>
+                </div>
+                <div class="metric">
+                    <span>Original Tone:</span> <strong>${data.originalTone}</strong>
+                </div>
+                <div class="metric">
+                    <span>Revised Tone:</span> <strong>${data.revisedTone}</strong>
+                </div>
+                <p style="margin-top: 10px;"><strong>Analysis:</strong> ${data.interpretation || 'Tone shift detected'}</p>
+            `;
+            document.getElementById('toneResults').classList.add('show');
+        }
+
+        function displayEmotionalArc(arcData, segments) {
+            const content = document.getElementById('toneContent');
+            content.innerHTML = `
+                <h4>Emotional Arc</h4>
+                <div class="metric">
+                    <span>Arc Type:</span> <strong>${arcData.arcType}</strong>
+                </div>
+                <div class="metric">
+                    <span>Volatility:</span> <strong>${Math.round(arcData.volatility * 100)}%</strong>
+                </div>
+                <div class="metric">
+                    <span>Trend:</span> <strong>${arcData.trend}</strong>
+                </div>
+                <div style="margin-top: 15px;">
+                    <h5>Emotional Journey:</h5>
+                    ${segments.map((seg, i) => `
+                        <div class="tone-segment">
+                            <strong>Point ${i + 1}</strong>
+                            <span class="tone-value tone-${getToneClass(seg.sentiment)}">${Math.round(seg.sentiment * 100)}%</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('toneResults').classList.add('show');
+        }
+
+        function getToneClass(sentiment) {
+            if (sentiment > 0.6) return 'positive';
+            if (sentiment < 0.4) return 'negative';
+            return 'neutral';
+        }
+
+        // ============================================
+        // ENTITY EXTRACTION FUNCTIONS
+        // ============================================
+
+        async function extractEntities() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('entityResults', 'entityContent', 'Extracting entities...');
+
+            try {
+                const response = await fetch(`${API_BASE}/entities/extract`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, options: { includeRelationships: true } }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Entity extraction failed');
+
+                displayEntities(data);
+                showStatus('Entities extracted!', 'success');
+            } catch (error) {
+                showStatus(`Entity extraction failed: ${error.message}`, 'error');
+                hideAnalysisResults('entityResults');
+            }
+        }
+
+        async function getEntitySummary() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('entityResults', 'entityContent', 'Generating entity summary...');
+
+            try {
+                const response = await fetch(`${API_BASE}/entities/summary`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Entity summary failed');
+
+                displayEntitySummary(data);
+                showStatus('Entity summary generated!', 'success');
+            } catch (error) {
+                showStatus(`Entity summary failed: ${error.message}`, 'error');
+                hideAnalysisResults('entityResults');
+            }
+        }
+
+        async function compareEntities() {
+            const text = document.getElementById('text').value;
+            const resultText = document.getElementById('resultText').textContent;
+
+            if (!text.trim() || !resultText.trim()) {
+                showStatus('Please perform a text operation first to have two versions to compare', 'error');
+                return;
+            }
+
+            showAnalysisLoading('entityResults', 'entityContent', 'Comparing entities...');
+
+            try {
+                const response = await fetch(`${API_BASE}/entities/compare`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ original: text, revised: resultText }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Entity comparison failed');
+
+                displayEntityComparison(data);
+                showStatus('Entity comparison complete!', 'success');
+            } catch (error) {
+                showStatus(`Entity comparison failed: ${error.message}`, 'error');
+                hideAnalysisResults('entityResults');
+            }
+        }
+
+        function displayEntities(data) {
+            const content = document.getElementById('entityContent');
+            content.innerHTML = `
+                <h4>Extracted Entities (${data.entityCount} total)</h4>
+
+                <div style="margin-top: 15px;">
+                    <h5>👥 Characters (${data.characters.length})</h5>
+                    <div class="entity-list">
+                        ${data.characters.map(e => `
+                            <div class="entity-item">
+                                <div class="entity-name">${e.name}</div>
+                                <div class="entity-details">
+                                    Mentions: ${e.mentions} |
+                                    First: Para ${e.firstAppearance.paragraph}, Sent ${e.firstAppearance.sentence}
+                                    ${e.attributes.length > 0 ? `<br>Attributes: ${e.attributes.join(', ')}` : ''}
+                                    ${e.relationships && e.relationships.length > 0 ? `<br>Relations: ${e.relationships.map(r => `${r.target} (${r.type})`).join(', ')}` : ''}
+                                </div>
+                            </div>
+                        `).join('') || '<p style="color: #999;">No characters found</p>'}
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <h5>📍 Locations (${data.locations.length})</h5>
+                    <div class="entity-list">
+                        ${data.locations.map(e => `
+                            <div class="entity-item">
+                                <div class="entity-name">${e.name}</div>
+                                <div class="entity-details">
+                                    Mentions: ${e.mentions}
+                                    ${e.attributes.length > 0 ? `<br>Attributes: ${e.attributes.join(', ')}` : ''}
+                                </div>
+                            </div>
+                        `).join('') || '<p style="color: #999;">No locations found</p>'}
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <h5>🔧 Objects (${data.objects.length})</h5>
+                    <div class="entity-list">
+                        ${data.objects.map(e => `
+                            <div class="entity-item">
+                                <div class="entity-name">${e.name}</div>
+                                <div class="entity-details">
+                                    Mentions: ${e.mentions}
+                                    ${e.attributes.length > 0 ? `<br>Attributes: ${e.attributes.join(', ')}` : ''}
+                                </div>
+                            </div>
+                        `).join('') || '<p style="color: #999;">No objects found</p>'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('entityResults').classList.add('show');
+        }
+
+        function displayEntitySummary(data) {
+            const content = document.getElementById('entityContent');
+            content.innerHTML = `
+                <h4>Entity Summary</h4>
+                <div class="metric">
+                    <span>Characters:</span> <strong>${data.characterCount}</strong>
+                </div>
+                <div class="metric">
+                    <span>Locations:</span> <strong>${data.locationCount}</strong>
+                </div>
+                <div class="metric">
+                    <span>Objects:</span> <strong>${data.objectCount}</strong>
+                </div>
+                <div class="metric">
+                    <span>Total Mentions:</span> <strong>${data.totalMentions}</strong>
+                </div>
+                <div class="metric">
+                    <span>Most Mentioned:</span> <strong>${data.mostMentioned.name} (${data.mostMentioned.type}, ${data.mostMentioned.mentions} mentions)</strong>
+                </div>
+            `;
+            document.getElementById('entityResults').classList.add('show');
+        }
+
+        function displayEntityComparison(data) {
+            const content = document.getElementById('entityContent');
+            content.innerHTML = `
+                <h4>Entity Comparison</h4>
+
+                <div style="margin-top: 15px;">
+                    <h5 style="color: #4CAF50;">➕ Added Entities</h5>
+                    <p><strong>Characters:</strong> ${data.added.characters.join(', ') || 'None'}</p>
+                    <p><strong>Locations:</strong> ${data.added.locations.join(', ') || 'None'}</p>
+                    <p><strong>Objects:</strong> ${data.added.objects.join(', ') || 'None'}</p>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <h5 style="color: #f44336;">➖ Removed Entities</h5>
+                    <p><strong>Characters:</strong> ${data.removed.characters.join(', ') || 'None'}</p>
+                    <p><strong>Locations:</strong> ${data.removed.locations.join(', ') || 'None'}</p>
+                    <p><strong>Objects:</strong> ${data.removed.objects.join(', ') || 'None'}</p>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <h5 style="color: #2196F3;">✓ Retained Entities</h5>
+                    <p><strong>Characters:</strong> ${data.retained.characters.join(', ') || 'None'}</p>
+                    <p><strong>Locations:</strong> ${data.retained.locations.join(', ') || 'None'}</p>
+                    <p><strong>Objects:</strong> ${data.retained.objects.join(', ') || 'None'}</p>
+                </div>
+            `;
+            document.getElementById('entityResults').classList.add('show');
+        }
+
+        // ============================================
+        // TIMELINE ANALYSIS FUNCTIONS
+        // ============================================
+
+        async function extractEvents() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('timelineResults', 'timelineContent', 'Extracting events...');
+
+            try {
+                const response = await fetch(`${API_BASE}/timeline/events`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Event extraction failed');
+
+                displayEvents(data.events);
+                showStatus('Events extracted!', 'success');
+            } catch (error) {
+                showStatus(`Event extraction failed: ${error.message}`, 'error');
+                hideAnalysisResults('timelineResults');
+            }
+        }
+
+        async function buildTimeline() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('timelineResults', 'timelineContent', 'Building timeline...');
+
+            try {
+                const response = await fetch(`${API_BASE}/timeline/build`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Timeline build failed');
+
+                displayTimeline(data);
+                showStatus('Timeline built!', 'success');
+            } catch (error) {
+                showStatus(`Timeline build failed: ${error.message}`, 'error');
+                hideAnalysisResults('timelineResults');
+            }
+        }
+
+        async function analyzePacing() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('timelineResults', 'timelineContent', 'Analyzing pacing...');
+
+            try {
+                const response = await fetch(`${API_BASE}/timeline/pacing`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Pacing analysis failed');
+
+                displayPacing(data);
+                showStatus('Pacing analyzed!', 'success');
+            } catch (error) {
+                showStatus(`Pacing analysis failed: ${error.message}`, 'error');
+                hideAnalysisResults('timelineResults');
+            }
+        }
+
+        async function detectStructure() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showAnalysisLoading('timelineResults', 'timelineContent', 'Detecting narrative structure...');
+
+            try {
+                const response = await fetch(`${API_BASE}/timeline/structure`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Structure detection failed');
+
+                displayStructure(data.structure);
+                showStatus('Narrative structure detected!', 'success');
+            } catch (error) {
+                showStatus(`Structure detection failed: ${error.message}`, 'error');
+                hideAnalysisResults('timelineResults');
+            }
+        }
+
+        async function compareTimelines() {
+            const text = document.getElementById('text').value;
+            const resultText = document.getElementById('resultText').textContent;
+
+            if (!text.trim() || !resultText.trim()) {
+                showStatus('Please perform a text operation first to have two versions to compare', 'error');
+                return;
+            }
+
+            showAnalysisLoading('timelineResults', 'timelineContent', 'Comparing timelines...');
+
+            try {
+                const response = await fetch(`${API_BASE}/timeline/compare`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ original: text, revised: resultText }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Timeline comparison failed');
+
+                displayTimelineComparison(data);
+                showStatus('Timeline comparison complete!', 'success');
+            } catch (error) {
+                showStatus(`Timeline comparison failed: ${error.message}`, 'error');
+                hideAnalysisResults('timelineResults');
+            }
+        }
+
+        function displayEvents(events) {
+            const content = document.getElementById('timelineContent');
+            content.innerHTML = `
+                <h4>Extracted Events (${events.length})</h4>
+                <div class="event-list">
+                    ${events.map((event, i) => `
+                        <div class="event-item">
+                            <div class="event-description"><strong>Event ${i + 1}:</strong> ${event.description}</div>
+                            <div class="event-details">
+                                Position: ${Math.round(event.position * 100)}% |
+                                Participants: ${event.participants?.join(', ') || 'Unknown'}
+                                ${event.timeIndicator ? `<br>Time: ${event.timeIndicator}` : ''}
+                            </div>
+                        </div>
+                    `).join('') || '<p style="color: #999;">No events found</p>'}
+                </div>
+            `;
+            document.getElementById('timelineResults').classList.add('show');
+        }
+
+        function displayTimeline(data) {
+            const content = document.getElementById('timelineContent');
+            content.innerHTML = `
+                <h4>Complete Timeline</h4>
+                <div class="metric">
+                    <span>Structure:</span> <strong>${data.structure}</strong>
+                </div>
+                <div class="metric">
+                    <span>Total Events:</span> <strong>${data.events.length}</strong>
+                </div>
+                <div class="metric">
+                    <span>Event Density:</span> <strong>${data.eventDensity.toFixed(2)} events per segment</strong>
+                </div>
+                <div style="margin-top: 15px;">
+                    <h5>Timeline:</h5>
+                    ${displayEvents(data.events)}
+                </div>
+            `;
+            document.getElementById('timelineResults').classList.add('show');
+        }
+
+        function displayPacing(data) {
+            const content = document.getElementById('timelineContent');
+            content.innerHTML = `
+                <h4>Pacing Analysis</h4>
+                <div class="metric">
+                    <span>Overall Pace:</span> <strong>${data.overallPace}</strong>
+                </div>
+                <div class="metric">
+                    <span>Event Density:</span> <strong>${data.eventDensity.toFixed(2)}</strong>
+                </div>
+                <div class="metric">
+                    <span>Pacing Variance:</span> <strong>${data.pacingVariance.toFixed(2)}</strong>
+                </div>
+                ${data.recommendations && data.recommendations.length > 0 ? `
+                    <div style="margin-top: 15px;">
+                        <h5>Recommendations:</h5>
+                        <ul>
+                            ${data.recommendations.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+            `;
+            document.getElementById('timelineResults').classList.add('show');
+        }
+
+        function displayStructure(structure) {
+            const content = document.getElementById('timelineContent');
+            content.innerHTML = `
+                <h4>Narrative Structure</h4>
+                <div class="metric">
+                    <span>Detected Structure:</span> <strong>${structure}</strong>
+                </div>
+                <p style="margin-top: 10px; font-size: 13px; color: #666;">
+                    ${getStructureDescription(structure)}
+                </p>
+            `;
+            document.getElementById('timelineResults').classList.add('show');
+        }
+
+        function displayTimelineComparison(data) {
+            const content = document.getElementById('timelineContent');
+            content.innerHTML = `
+                <h4>Timeline Comparison</h4>
+                <div style="margin-top: 15px;">
+                    <h5 style="color: #4CAF50;">➕ Added Events (${data.addedEvents.length})</h5>
+                    <div class="event-list">
+                        ${data.addedEvents.map(e => `
+                            <div class="event-item">
+                                <div class="event-description">${e.description}</div>
+                            </div>
+                        `).join('') || '<p style="color: #999;">None</p>'}
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <h5 style="color: #f44336;">➖ Removed Events (${data.removedEvents.length})</h5>
+                    <div class="event-list">
+                        ${data.removedEvents.map(e => `
+                            <div class="event-item">
+                                <div class="event-description">${e.description}</div>
+                            </div>
+                        `).join('') || '<p style="color: #999;">None</p>'}
+                    </div>
+                </div>
+                <div class="metric">
+                    <span>Pacing Change:</span> <strong>${data.pacingChange > 0 ? '+' : ''}${data.pacingChange.toFixed(2)}</strong>
+                </div>
+            `;
+            document.getElementById('timelineResults').classList.add('show');
+        }
+
+        function getStructureDescription(structure) {
+            const descriptions = {
+                'linear': 'Events unfold chronologically from beginning to end.',
+                'non-linear': 'Timeline includes flashbacks, flash-forwards, or parallel narratives.',
+                'circular': 'Narrative ends where it began, creating a cyclical structure.',
+                'fragmented': 'Story told in disconnected pieces or vignettes.',
+            };
+            return descriptions[structure] || 'Structure pattern identified in the narrative.';
+        }
+
+        // ============================================
+        // MISSING COMPLEXITY FUNCTIONS
+        // ============================================
+
+        async function analyzeDensity() {
+            const text = document.getElementById('text').value;
+            if (!text.trim()) {
+                showStatus('Please enter some text first', 'error');
+                return;
+            }
+
+            showComplexityLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/complexity/density`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Density analysis failed');
+
+                displayDensity(data);
+                showStatus('Narrative density analyzed!', 'success');
+            } catch (error) {
+                showStatus(`Density analysis failed: ${error.message}`, 'error');
+                hideComplexityResults();
+            }
+        }
+
+        async function compareComplexity() {
+            const text = document.getElementById('text').value;
+            const resultText = document.getElementById('resultText').textContent;
+
+            if (!text.trim() || !resultText.trim()) {
+                showStatus('Please perform a text operation first to have two versions to compare', 'error');
+                return;
+            }
+
+            showComplexityLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/complexity/compare`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ original: text, revised: resultText }),
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Complexity comparison failed');
+
+                displayComplexityComparison(data);
+                showStatus('Complexity comparison complete!', 'success');
+            } catch (error) {
+                showStatus(`Complexity comparison failed: ${error.message}`, 'error');
+                hideComplexityResults();
+            }
+        }
+
+        function displayDensity(data) {
+            const content = document.getElementById('complexityContent');
+            content.innerHTML = `
+                <div class="complexity-card" style="max-width: 100%;">
+                    <h4>📊 Narrative Density Analysis</h4>
+                    <div class="metric">
+                        <span class="metric-label">Average Density</span>
+                        <span class="metric-value">${data.averageDensity.toFixed(2)} ideas/paragraph</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Exposition</span>
+                        <span class="metric-value">${Math.round(data.contentBreakdown.exposition * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Action</span>
+                        <span class="metric-value">${Math.round(data.contentBreakdown.action * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Dialogue</span>
+                        <span class="metric-value">${Math.round(data.contentBreakdown.dialogue * 100)}%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Description</span>
+                        <span class="metric-value">${Math.round(data.contentBreakdown.description * 100)}%</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        function displayComplexityComparison(data) {
+            const content = document.getElementById('complexityContent');
+            content.innerHTML = `
+                <h4>Complexity Comparison</h4>
+                <div class="metric">
+                    <span>Overall Change:</span>
+                    <span style="color: ${data.overallChange > 0 ? '#4CAF50' : '#f44336'}">
+                        ${data.overallChange > 0 ? '+' : ''}${Math.round(data.overallChange * 100)}%
+                    </span>
+                </div>
+                <div class="metric">
+                    <span>Thread Count Change:</span> <strong>${data.threadCountChange > 0 ? '+' : ''}${data.threadCountChange}</strong>
+                </div>
+                <div class="metric">
+                    <span>Character Count Change:</span> <strong>${data.characterCountChange > 0 ? '+' : ''}${data.characterCountChange}</strong>
+                </div>
+                <div class="metric">
+                    <span>Readability Change:</span>
+                    <span style="color: ${data.readabilityChange > 0 ? '#4CAF50' : '#f44336'}">
+                        ${data.readabilityChange > 0 ? '+' : ''}${Math.round(data.readabilityChange * 100)}%
+                    </span>
+                </div>
+                <p style="margin-top: 10px;"><strong>Summary:</strong> ${data.summary || 'Complexity metrics compared'}</p>
+            `;
+            document.getElementById('complexityResults').classList.add('show');
+        }
+
+        // ============================================
+        // HELPER FUNCTIONS
+        // ============================================
+
+        function showAnalysisLoading(resultsId, contentId, message) {
+            const results = document.getElementById(resultsId);
+            const content = document.getElementById(contentId);
+            content.innerHTML = `<p style="text-align: center; color: #666;">⏳ ${message}</p>`;
+            results.classList.add('show');
+        }
+
+        function hideAnalysisResults(resultsId) {
+            document.getElementById(resultsId).classList.remove('show');
+        }
+
         // Check API health on load
         async function checkHealth() {
             try {
-                const response = await fetch('http://localhost:3000/health');
+                const response = await fetch('http://localhost:4001/health');
                 if (response.ok) {
                     showStatus('Connected to Story Time server', 'success');
                     refreshHistory();
+                    loadSessions();
                 }
             } catch (error) {
                 showStatus('Cannot connect to server. Please start the backend.', 'error');
