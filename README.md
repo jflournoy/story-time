@@ -1,5 +1,7 @@
 # Story Time
 
+![Commands](https://img.shields.io/badge/commands-14-blue)
+
 **AI-assisted narrative development using local LLMs**
 
 A flexible web-based tool for writers to expand, refine, revise, and restructure their stories and scripts using locally-hosted language models.
