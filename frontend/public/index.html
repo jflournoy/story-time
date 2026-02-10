@@ -1084,6 +1084,27 @@
                 const originalText = document.getElementById('text').value;
                 computeAndShowDiff(originalText, data.result);
 
+                // Save to session if one is selected
+                if (currentSessionId) {
+                    try {
+                        await fetch(`${API_BASE}/sessions/${currentSessionId}/history`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                type: operation,
+                                originalText: text,
+                                resultText: data.result,
+                                synopsis: synopsis || undefined,
+                            }),
+                        });
+                        // Refresh session list to update operation count
+                        await loadSessions();
+                    } catch (sessionError) {
+                        console.error('Failed to save to session:', sessionError);
+                        // Don't fail the whole operation if session save fails
+                    }
+                }
+
                 showStatus(`${operation} completed successfully!`, 'success');
 
             } catch (error) {
@@ -1215,15 +1236,26 @@
         // History management functions
         async function refreshHistory() {
             try {
-                const response = await fetch(`${API_BASE}/history`);
-                const data = await response.json();
+                let response, data;
 
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to fetch history');
+                // Load from session if one is selected, otherwise use in-memory history
+                if (currentSessionId) {
+                    response = await fetch(`${API_BASE}/sessions/${currentSessionId}/history`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch session history');
+                    }
+                    const history = await response.json();
+                    displayHistory(history);
+                    updateHistoryCount(history.length);
+                } else {
+                    response = await fetch(`${API_BASE}/history`);
+                    data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to fetch history');
+                    }
+                    displayHistory(data.history);
+                    updateHistoryCount(data.count);
                 }
-
-                displayHistory(data.history);
-                updateHistoryCount(data.count);
             } catch (error) {
                 showStatus(`Failed to load history: ${error.message}`, 'error');
             }
@@ -1893,6 +1925,7 @@
                 currentSessionId = session.id;
 
                 await loadSessions();
+                await refreshHistory();
                 showStatus(`Session "${title}" created!`, 'success');
             } catch (error) {
                 showStatus(`Failed to create session: ${error.message}`, 'error');
@@ -1908,6 +1941,9 @@
             } else {
                 showStatus('Using in-memory mode (no persistence)', 'success');
             }
+
+            // Refresh history to show the selected session's operations
+            await refreshHistory();
         }
 
         async function manageSessions() {
