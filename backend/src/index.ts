@@ -3,6 +3,7 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import { router as apiRouter } from './api/routes';
 import { errorHandler } from './api/middleware/errorHandler';
 
@@ -16,6 +17,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../../frontend/public')));
 
 // Routes
 app.get('/health', (req: Request, res: Response) => {
