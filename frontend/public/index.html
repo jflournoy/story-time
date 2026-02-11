@@ -1084,6 +1084,10 @@
                 const originalText = document.getElementById('text').value;
                 computeAndShowDiff(originalText, data.result);
 
+                // Auto-populate: Update text field with result and generate synopsis
+                document.getElementById('text').value = data.result;
+                await autoGenerateSynopsis(data.result);
+
                 // Save to session if one is selected
                 if (currentSessionId) {
                     try {
@@ -1105,7 +1109,7 @@
                     }
                 }
 
-                showStatus(`${operation} completed successfully!`, 'success');
+                showStatus(`${operation} complete! Text and synopsis updated. Check diff for changes.`, 'success');
 
             } catch (error) {
                 resultTitle.textContent = 'Error:';
@@ -1165,6 +1169,33 @@
                 showStatus('Synopsis generation failed', 'error');
             } finally {
                 loadingDiv.classList.remove('show');
+            }
+        }
+
+        /**
+         * Automatically generate synopsis for the given text and populate synopsis field
+         * Silent version - doesn't show loading or result messages
+         */
+        async function autoGenerateSynopsis(text) {
+            try {
+                const response = await fetch(`${API_BASE}/text/synopsis`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Synopsis generation failed');
+                }
+
+                const data = await response.json();
+                document.getElementById('synopsis').value = data.synopsis;
+
+            } catch (error) {
+                console.warn('Auto-synopsis generation failed:', error);
+                // Non-critical failure - don't interrupt user workflow
             }
         }
 
