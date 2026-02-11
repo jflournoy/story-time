@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
 import { HistoryEntry } from './historyService';
-import { v4 as uuidv4 } from 'crypto';
+import { randomUUID } from 'crypto';
 
 export interface SessionMetadata {
   id: string;
@@ -268,7 +268,7 @@ export class SessionService {
    * Close the database connection
    */
   async close(): Promise<void> {
-    return Promise.resolve(this.db.close());
+    this.db.close();
   }
 
   /**
