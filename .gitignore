@@ -69,6 +69,13 @@ desktop.ini
 tmp/
 temp/
 
+# TDD session files
+.tdd-session-*.md
+
+# Development databases
+*.db
+!test/**/*.db
+
 # Logs (except session-history which we intentionally track)
 logs/
 *.log
@@ -89,6 +96,8 @@ __pycache__/
 .Python
 venv/
 ENV/
+*.egg-info/
+uv.lock
 
 # Note: We intentionally DO NOT ignore:
 # - .claude/commands/ (core product)
