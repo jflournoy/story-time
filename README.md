@@ -434,6 +434,12 @@ POST /api/world/state
 }
 ```
 
+## Documentation
+
+- **[API Documentation](docs/API.md)** - Complete API reference including Sessions and Entity Persistence APIs
+- **[Development Guidelines](CLAUDE.md)** - TDD workflow, coding standards, and AI collaboration patterns
+- **[Setup Guide](docs/SETUP.md)** - Project setup and configuration instructions
+
 ## Contributing
 
 This project is in early development. Contributions welcome, especially:
