@@ -288,4 +288,121 @@ describe('Sessions API Endpoints', () => {
       expect(response.body).toHaveProperty('error');
     });
   });
+
+  describe('POST /api/sessions/:sessionId/entities - Save Entities', () => {
+    it('should save entity extraction results to session', async () => {
+      const createRes = await request(app)
+        .post('/api/sessions')
+        .send({ title: 'Entity Test Session' });
+
+      const entities = {
+        characters: [
+          {
+            type: 'character',
+            name: 'Elena',
+            mentions: 2,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: ['biologist'],
+          },
+        ],
+        locations: [
+          {
+            type: 'location',
+            name: 'Amazon jungle',
+            mentions: 1,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: [],
+          },
+        ],
+        objects: [],
+        entityCount: 2,
+      };
+
+      const response = await request(app)
+        .post(`/api/sessions/${createRes.body.id}/entities`)
+        .send(entities)
+        .expect(201);
+
+      expect(response.body.message).toBe('Entities saved successfully');
+      expect(response.body.entities).toBeDefined();
+    });
+
+    it('should return 404 when saving to non-existent session', async () => {
+      const entities = {
+        characters: [],
+        locations: [],
+        objects: [],
+        entityCount: 0,
+      };
+
+      await request(app)
+        .post('/api/sessions/non-existent/entities')
+        .send(entities)
+        .expect(404);
+    });
+
+    it('should validate entities structure', async () => {
+      const createRes = await request(app)
+        .post('/api/sessions')
+        .send({ title: 'Validation Test' });
+
+      const response = await request(app)
+        .post(`/api/sessions/${createRes.body.id}/entities`)
+        .send({ invalid: 'data' })
+        .expect(400);
+
+      expect(response.body).toHaveProperty('error');
+    });
+  });
+
+  describe('GET /api/sessions/:sessionId/entities - Get Entities', () => {
+    it('should retrieve saved entities for a session', async () => {
+      const createRes = await request(app)
+        .post('/api/sessions')
+        .send({ title: 'Entity Retrieval Test' });
+
+      const entities = {
+        characters: [
+          {
+            type: 'character',
+            name: 'Marco',
+            mentions: 1,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: ['guide'],
+          },
+        ],
+        locations: [],
+        objects: [],
+        entityCount: 1,
+      };
+
+      await request(app)
+        .post(`/api/sessions/${createRes.body.id}/entities`)
+        .send(entities)
+        .expect(201);
+
+      const response = await request(app)
+        .get(`/api/sessions/${createRes.body.id}/entities`)
+        .expect(200);
+
+      expect(response.body.characters).toHaveLength(1);
+      expect(response.body.characters[0].name).toBe('Marco');
+    });
+
+    it('should return 404 for session with no entities', async () => {
+      const createRes = await request(app)
+        .post('/api/sessions')
+        .send({ title: 'Empty Entities' });
+
+      await request(app)
+        .get(`/api/sessions/${createRes.body.id}/entities`)
+        .expect(404);
+    });
+
+    it('should return 404 for non-existent session', async () => {
+      await request(app)
+        .get('/api/sessions/non-existent/entities')
+        .expect(404);
+    });
+  });
 });

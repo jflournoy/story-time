@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { SessionService } from '../services/sessionService';
 import { HistoryEntry } from '../services/historyService';
+import type { EntityExtractionResult } from '../services/entityExtractionService';
 
 export const sessionsRouter = Router();
 const sessionService = new SessionService();
@@ -191,5 +192,67 @@ sessionsRouter.post('/:sessionId/history', async (req: Request, res: Response) =
   } catch (error) {
     console.error('Add operation to session error:', error);
     res.status(500).json({ error: 'Failed to add operation to session' });
+  }
+});
+
+/**
+ * GET /api/sessions/:sessionId/entities
+ * Get entity extraction results for a session
+ */
+sessionsRouter.get('/:sessionId/entities', async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+
+    // Check if session exists
+    const session = await sessionService.getSession(sessionId);
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    const entities = await sessionService.getEntities(sessionId);
+
+    if (!entities) {
+      return res.status(404).json({ error: 'No entities found for this session' });
+    }
+
+    res.json(entities);
+  } catch (error) {
+    console.error('Get session entities error:', error);
+    res.status(500).json({ error: 'Failed to get session entities' });
+  }
+});
+
+/**
+ * POST /api/sessions/:sessionId/entities
+ * Save entity extraction results to a session
+ */
+sessionsRouter.post('/:sessionId/entities', async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const entities: EntityExtractionResult = req.body;
+
+    // Validate entities structure
+    if (!entities || !entities.characters || !entities.locations || !entities.objects) {
+      return res.status(400).json({
+        error: 'Invalid entities structure. Required: characters, locations, objects',
+      });
+    }
+
+    // Check if session exists
+    const session = await sessionService.getSession(sessionId);
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+
+    const saved = await sessionService.saveEntities(sessionId, entities);
+
+    if (!saved) {
+      return res.status(500).json({ error: 'Failed to save entities' });
+    }
+
+    res.status(201).json({ message: 'Entities saved successfully', entities });
+  } catch (error) {
+    console.error('Save session entities error:', error);
+    res.status(500).json({ error: 'Failed to save session entities' });
   }
 });
