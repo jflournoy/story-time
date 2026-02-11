@@ -149,7 +149,7 @@ export class SessionService {
     const stmt = this.db.prepare(`
       SELECT id, title, description, created_at, updated_at, operation_count
       FROM sessions
-      ORDER BY created_at DESC
+      ORDER BY created_at DESC, id DESC
       LIMIT ? OFFSET ?
     `);
 

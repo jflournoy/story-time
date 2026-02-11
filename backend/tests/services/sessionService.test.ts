@@ -63,19 +63,24 @@ describe('SessionService - Persistent Storage with SQLite', () => {
   describe('Session Listing', () => {
     it('should list all sessions', async () => {
       await sessionService.createSession({ title: 'Session 1' });
+      await new Promise(resolve => setTimeout(resolve, 2));
       await sessionService.createSession({ title: 'Session 2' });
+      await new Promise(resolve => setTimeout(resolve, 2));
       await sessionService.createSession({ title: 'Session 3' });
 
       const sessions = await sessionService.listSessions();
 
       expect(sessions).toHaveLength(3);
-      expect(sessions[0].title).toBe('Session 1');
-      expect(sessions[2].title).toBe('Session 3');
+      // Sessions are ordered DESC (newest first)
+      expect(sessions[0].title).toBe('Session 3');
+      expect(sessions[2].title).toBe('Session 1');
     });
 
     it('should list sessions with pagination', async () => {
       for (let i = 0; i < 15; i++) {
         await sessionService.createSession({ title: `Session ${i}` });
+        // Small delay to ensure unique timestamps for deterministic ordering
+        await new Promise(resolve => setTimeout(resolve, 2));
       }
 
       const page1 = await sessionService.listSessions({ skip: 0, limit: 5 });
@@ -85,9 +90,10 @@ describe('SessionService - Persistent Storage with SQLite', () => {
       expect(page1).toHaveLength(5);
       expect(page2).toHaveLength(5);
       expect(page3).toHaveLength(5);
-      expect(page1[0].title).toBe('Session 0');
-      expect(page2[0].title).toBe('Session 5');
-      expect(page3[0].title).toBe('Session 10');
+      // Sessions are ordered DESC (newest first), so Session 14 is first
+      expect(page1[0].title).toBe('Session 14');
+      expect(page2[0].title).toBe('Session 9');
+      expect(page3[0].title).toBe('Session 4');
     });
 
     it('should return empty array when no sessions exist', async () => {
