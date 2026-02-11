@@ -365,4 +365,171 @@ describe('SessionService - Persistent Storage with SQLite', () => {
       expect(history).toHaveLength(5);
     });
   });
+
+  describe('Entity Persistence (World State)', () => {
+    it('should save entity extraction results to session', async () => {
+      const session = await sessionService.createSession({
+        title: 'Story with Entities',
+      });
+
+      const entities = {
+        characters: [
+          {
+            type: 'character' as const,
+            name: 'Elena',
+            mentions: 2,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: ['biologist', 'determined'],
+          },
+        ],
+        locations: [
+          {
+            type: 'location' as const,
+            name: 'Amazon jungle',
+            mentions: 1,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: ['dense', 'tropical'],
+          },
+        ],
+        objects: [],
+        entityCount: 2,
+      };
+
+      const result = await sessionService.saveEntities(session.id, entities);
+
+      expect(result).toBe(true);
+    });
+
+    it('should retrieve saved entities for a session', async () => {
+      const session = await sessionService.createSession({
+        title: 'Story Session',
+      });
+
+      const entities = {
+        characters: [
+          {
+            type: 'character' as const,
+            name: 'Marco',
+            mentions: 3,
+            firstAppearance: { paragraph: 0, sentence: 1 },
+            attributes: ['guide'],
+          },
+        ],
+        locations: [],
+        objects: [
+          {
+            type: 'object' as const,
+            name: 'ancient map',
+            mentions: 2,
+            firstAppearance: { paragraph: 1, sentence: 0 },
+            attributes: ['old', 'valuable'],
+          },
+        ],
+        entityCount: 2,
+      };
+
+      await sessionService.saveEntities(session.id, entities);
+
+      const retrieved = await sessionService.getEntities(session.id);
+
+      expect(retrieved).toBeDefined();
+      expect(retrieved?.characters).toHaveLength(1);
+      expect(retrieved?.characters[0].name).toBe('Marco');
+      expect(retrieved?.objects[0].name).toBe('ancient map');
+    });
+
+    it('should support incremental entity updates', async () => {
+      const session = await sessionService.createSession({
+        title: 'Incremental Updates',
+      });
+
+      // First extraction
+      const entities1 = {
+        characters: [
+          {
+            type: 'character' as const,
+            name: 'Elena',
+            mentions: 1,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: [],
+          },
+        ],
+        locations: [],
+        objects: [],
+        entityCount: 1,
+      };
+
+      await sessionService.saveEntities(session.id, entities1);
+
+      // Second extraction with new entity
+      const entities2 = {
+        characters: [
+          {
+            type: 'character' as const,
+            name: 'Elena',
+            mentions: 3,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: ['biologist'],
+          },
+          {
+            type: 'character' as const,
+            name: 'Marco',
+            mentions: 1,
+            firstAppearance: { paragraph: 1, sentence: 0 },
+            attributes: [],
+          },
+        ],
+        locations: [],
+        objects: [],
+        entityCount: 2,
+      };
+
+      await sessionService.saveEntities(session.id, entities2);
+
+      const retrieved = await sessionService.getEntities(session.id);
+
+      expect(retrieved?.characters).toHaveLength(2);
+      expect(retrieved?.characters[0].name).toBe('Elena');
+      expect(retrieved?.characters[0].mentions).toBe(3);
+      expect(retrieved?.characters[1].name).toBe('Marco');
+    });
+
+    it('should return undefined for session with no entities', async () => {
+      const session = await sessionService.createSession({
+        title: 'Empty Session',
+      });
+
+      const entities = await sessionService.getEntities(session.id);
+
+      expect(entities).toBeUndefined();
+    });
+
+    it('should delete entities when session is deleted', async () => {
+      const session = await sessionService.createSession({
+        title: 'Session with Entities',
+      });
+
+      const entities = {
+        characters: [
+          {
+            type: 'character' as const,
+            name: 'Test Character',
+            mentions: 1,
+            firstAppearance: { paragraph: 0, sentence: 0 },
+            attributes: [],
+          },
+        ],
+        locations: [],
+        objects: [],
+        entityCount: 1,
+      };
+
+      await sessionService.saveEntities(session.id, entities);
+      await sessionService.deleteSession(session.id);
+
+      const retrieved = await sessionService.getEntities(session.id);
+
+      expect(retrieved).toBeUndefined();
+    });
+  });
 });

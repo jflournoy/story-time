@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import { HistoryEntry } from './historyService';
 import { randomUUID } from 'crypto';
+import type { EntityExtractionResult } from './entityExtractionService';
 
 export interface SessionMetadata {
   id: string;
@@ -75,6 +76,16 @@ export class SessionService {
 
       CREATE INDEX IF NOT EXISTS idx_sessions_created_at
         ON sessions(created_at DESC);
+
+      CREATE TABLE IF NOT EXISTS entity_extractions (
+        session_id TEXT PRIMARY KEY,
+        entities_json TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_entity_extractions_session_id
+        ON entity_extractions(session_id);
     `);
   }
 
@@ -262,6 +273,62 @@ export class SessionService {
       synopsis: row.synopsis,
       timestamp: row.timestamp,
     }));
+  }
+
+  /**
+   * Save entity extraction results to a session
+   * This supports incremental updates - calling saveEntities again will replace previous data
+   */
+  async saveEntities(
+    sessionId: string,
+    entities: EntityExtractionResult
+  ): Promise<boolean> {
+    // Check if session exists
+    const session = await this.getSession(sessionId);
+    if (!session) {
+      return false;
+    }
+
+    const now = new Date().toISOString();
+    const entitiesJson = JSON.stringify(entities);
+
+    // Use INSERT OR REPLACE for incremental updates
+    const stmt = this.db.prepare(`
+      INSERT OR REPLACE INTO entity_extractions (session_id, entities_json, updated_at)
+      VALUES (?, ?, ?)
+    `);
+
+    try {
+      stmt.run(sessionId, entitiesJson, now);
+      return true;
+    } catch (error) {
+      console.error('Error saving entities:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get entity extraction results for a session
+   */
+  async getEntities(sessionId: string): Promise<EntityExtractionResult | undefined> {
+    const stmt = this.db.prepare(`
+      SELECT entities_json
+      FROM entity_extractions
+      WHERE session_id = ?
+    `);
+
+    const row = stmt.get(sessionId) as any;
+
+    if (!row) {
+      return undefined;
+    }
+
+    try {
+      return JSON.parse(row.entities_json) as EntityExtractionResult;
+    } catch (error) {
+      console.error('Error parsing entities JSON:', error);
+      return undefined;
+    }
   }
 
   /**
