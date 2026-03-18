@@ -17,15 +17,13 @@ describe('Provider Integration Tests', () => {
 
     it('should create local provider from environment', () => {
       const provider = ProviderFactory.createFromEnv();
-      expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
-      expect(provider.refine).toBeDefined();
+      expect(provider.getProviderName()).toBe('local');
     });
 
-    it('should create LLMService with local provider', () => {
+    it('should create LLMService with local provider and expose provider name', () => {
       const provider = ProviderFactory.createFromEnv();
       const service = new LLMService(provider);
-      expect(service).toBeDefined();
+      expect(service.getProviderName()).toBe('local');
     });
   });
 
@@ -38,15 +36,13 @@ describe('Provider Integration Tests', () => {
 
     it('should create ollama provider from environment', () => {
       const provider = ProviderFactory.createFromEnv();
-      expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
-      expect(provider.revise).toBeDefined();
+      expect(provider.getProviderName()).toBe('ollama');
     });
 
-    it('should create LLMService with ollama provider', () => {
+    it('should create LLMService with ollama provider and expose provider name', () => {
       const provider = ProviderFactory.createFromEnv();
       const service = new LLMService(provider);
-      expect(service).toBeDefined();
+      expect(service.getProviderName()).toBe('ollama');
     });
   });
 
@@ -57,8 +53,7 @@ describe('Provider Integration Tests', () => {
 
     it('should default to ollama when no provider specified', () => {
       const provider = ProviderFactory.createFromEnv();
-      expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
+      expect(provider.getProviderName()).toBe('ollama');
     });
   });
 

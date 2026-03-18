@@ -127,4 +127,10 @@ describe('LocalLLMProvider', () => {
       expect(result).toBe(false);
     });
   });
+
+  describe('getProviderName', () => {
+    it('should return "local"', () => {
+      expect(provider.getProviderName()).toBe('local');
+    });
+  });
 });

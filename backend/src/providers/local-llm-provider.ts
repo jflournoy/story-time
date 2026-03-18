@@ -53,6 +53,10 @@ export class LocalLLMProvider implements LLMProvider {
     }
   }
 
+  getProviderName(): string {
+    return 'local';
+  }
+
   private async complete(prompt: string, maxTokens: number): Promise<string> {
     try {
       const response = await axios.post(`${this.serviceUrl}/v1/completions`, {

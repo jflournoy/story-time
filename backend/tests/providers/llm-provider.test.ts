@@ -9,6 +9,7 @@ describe('LLMProvider Interface', () => {
       revise: async (text: string, synopsis?: string) => 'revised',
       generateSynopsis: async (text: string) => 'synopsis',
       healthCheck: async () => true,
+      getProviderName: () => 'mock',
     };
 
     expect(mockProvider.expand).toBeDefined();
@@ -16,5 +17,7 @@ describe('LLMProvider Interface', () => {
     expect(mockProvider.revise).toBeDefined();
     expect(mockProvider.generateSynopsis).toBeDefined();
     expect(mockProvider.healthCheck).toBeDefined();
+    expect(mockProvider.getProviderName).toBeDefined();
+    expect(mockProvider.getProviderName()).toBe('mock');
   });
 });

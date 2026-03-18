@@ -45,6 +45,10 @@ export class OllamaProvider implements LLMProvider {
     }
   }
 
+  getProviderName(): string {
+    return 'ollama';
+  }
+
   private async complete(prompt: string): Promise<string> {
     const response = await this.ollama.generate({
       model: this.model,

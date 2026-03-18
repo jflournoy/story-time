@@ -49,4 +49,11 @@ export class LLMService {
   async healthCheck(): Promise<boolean> {
     return this.provider.healthCheck();
   }
+
+  /**
+   * Get the name of the active provider
+   */
+  getProviderName(): string {
+    return this.provider.getProviderName();
+  }
 }

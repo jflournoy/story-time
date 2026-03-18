@@ -85,4 +85,10 @@ describe('OllamaProvider', () => {
       expect(result).toBe(false);
     });
   });
+
+  describe('getProviderName', () => {
+    it('should return "ollama"', () => {
+      expect(provider.getProviderName()).toBe('ollama');
+    });
+  });
 });

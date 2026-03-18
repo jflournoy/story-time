@@ -5,4 +5,5 @@ export interface LLMProvider {
   restructure(text: string, synopsis?: string): Promise<string>;
   generateSynopsis(text: string): Promise<string>;
   healthCheck(): Promise<boolean>;
+  getProviderName(): string;
 }

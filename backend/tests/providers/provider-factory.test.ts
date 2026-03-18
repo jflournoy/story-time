@@ -18,11 +18,7 @@ describe('ProviderFactory', () => {
       const provider = ProviderFactory.createProvider(config);
 
       expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
-      expect(provider.refine).toBeDefined();
-      expect(provider.revise).toBeDefined();
-      expect(provider.generateSynopsis).toBeDefined();
-      expect(provider.healthCheck).toBeDefined();
+      expect(provider.getProviderName()).toBe('local');
     });
 
     it('should create OllamaProvider when type is "ollama"', () => {
@@ -35,11 +31,7 @@ describe('ProviderFactory', () => {
       const provider = ProviderFactory.createProvider(config);
 
       expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
-      expect(provider.refine).toBeDefined();
-      expect(provider.revise).toBeDefined();
-      expect(provider.generateSynopsis).toBeDefined();
-      expect(provider.healthCheck).toBeDefined();
+      expect(provider.getProviderName()).toBe('ollama');
     });
 
     it('should throw error for unknown provider type', () => {
@@ -63,8 +55,7 @@ describe('ProviderFactory', () => {
 
       const provider = ProviderFactory.createFromEnv();
 
-      expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
+      expect(provider.getProviderName()).toBe('local');
     });
 
     it('should create OllamaProvider from LLM_PROVIDER=ollama', () => {
@@ -74,8 +65,7 @@ describe('ProviderFactory', () => {
 
       const provider = ProviderFactory.createFromEnv();
 
-      expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
+      expect(provider.getProviderName()).toBe('ollama');
     });
 
     it('should default to ollama when LLM_PROVIDER not set', () => {
@@ -83,8 +73,7 @@ describe('ProviderFactory', () => {
 
       const provider = ProviderFactory.createFromEnv();
 
-      expect(provider).toBeDefined();
-      expect(provider.expand).toBeDefined();
+      expect(provider.getProviderName()).toBe('ollama');
     });
   });
 });
