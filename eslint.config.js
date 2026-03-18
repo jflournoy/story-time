@@ -6,9 +6,19 @@ export default [
     ignores: ['backend/dist/**', '**/dist/**', '**/build/**', 'node_modules/**']
   },
   js.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommended.map(config => ({
+    ...config,
+    files: ['**/*.ts']
+  })),
   {
     files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_', 'caughtErrorsIgnorePattern': '^_' }],
+      'no-unused-vars': 'off'
+    }
+  },
+  {
+    files: ['backend/src/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
