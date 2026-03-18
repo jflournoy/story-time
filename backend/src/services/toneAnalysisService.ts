@@ -188,7 +188,7 @@ Format your response as: happy, 0.8, joy|excitement`;
   private determineTrajectory(
     sentiments: number[]
   ): 'ascending' | 'descending' | 'mixed' {
-    if (sentiments.length < 2) return 'neutral' as any;
+    if (sentiments.length < 2) return 'mixed';
 
     let ascendingCount = 0;
     let descendingCount = 0;

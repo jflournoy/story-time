@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { HistoryService } from '../services/historyService';
+import { HistoryService, OperationType } from '../services/historyService';
 
 export const historyRouter = Router();
 const historyService = new HistoryService();
@@ -52,7 +52,7 @@ historyRouter.get('/:id', (req: Request, res: Response) => {
 historyRouter.get('/type/:type', (req: Request, res: Response) => {
   try {
     const { type } = req.params;
-    const operations = historyService.getHistoryByType(type as any);
+    const operations = historyService.getHistoryByType(type as OperationType);
 
     res.json({
       success: true,

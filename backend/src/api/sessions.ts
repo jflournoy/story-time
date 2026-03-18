@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { SessionService } from '../services/sessionService';
-import { HistoryEntry } from '../services/historyService';
+import { HistoryEntry, OperationType } from '../services/historyService';
 import type { EntityExtractionResult } from '../services/entityExtractionService';
 
 export const sessionsRouter = Router();
@@ -174,7 +174,7 @@ sessionsRouter.post('/:sessionId/history', async (req: Request, res: Response) =
     // Create operation entry
     const operation: HistoryEntry = {
       id: `op_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      type: type as any,
+      type: type as OperationType,
       originalText,
       resultText,
       synopsis,

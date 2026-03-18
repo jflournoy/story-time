@@ -26,6 +26,28 @@ export interface ListSessionsOptions {
   limit?: number;
 }
 
+interface SessionRow {
+  id: string;
+  title: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+  operation_count: number;
+}
+
+interface OperationRow {
+  id: string;
+  type: string;
+  original_text: string;
+  result_text: string;
+  synopsis?: string;
+  timestamp: string;
+}
+
+interface EntityRow {
+  entities_json: string;
+}
+
 export class SessionService {
   private db: Database.Database;
   private dbPath: string;
@@ -122,7 +144,7 @@ export class SessionService {
       WHERE id = ?
     `);
 
-    const row = stmt.get(sessionId) as any;
+    const row = stmt.get(sessionId) as SessionRow | undefined;
 
     if (!row) {
       return undefined;
@@ -152,7 +174,7 @@ export class SessionService {
       LIMIT ? OFFSET ?
     `);
 
-    const rows = stmt.all(limit, skip) as any[];
+    const rows = stmt.all(limit, skip) as SessionRow[];
 
     return rows.map(row => ({
       id: row.id,
@@ -262,7 +284,7 @@ export class SessionService {
       ORDER BY timestamp ASC
     `);
 
-    const rows = stmt.all(sessionId) as any[];
+    const rows = stmt.all(sessionId) as OperationRow[];
 
     return rows.map(row => ({
       id: row.id,
@@ -316,7 +338,7 @@ export class SessionService {
       WHERE session_id = ?
     `);
 
-    const row = stmt.get(sessionId) as any;
+    const row = stmt.get(sessionId) as EntityRow | undefined;
 
     if (!row) {
       return undefined;

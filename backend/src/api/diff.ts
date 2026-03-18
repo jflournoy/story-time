@@ -13,7 +13,7 @@ interface DiffRequest {
  * POST /api/diff/compute
  * Compute differences between original and modified text
  */
-diffRouter.post('/compute', (req: Request<{}, {}, DiffRequest>, res: Response) => {
+diffRouter.post('/compute', (req: Request<Record<string, string>, Record<string, unknown>, DiffRequest>, res: Response) => {
   try {
     const { original, modified } = req.body;
 
@@ -43,7 +43,7 @@ diffRouter.post('/compute', (req: Request<{}, {}, DiffRequest>, res: Response) =
  * POST /api/diff/lines
  * Compute line-level differences
  */
-diffRouter.post('/lines', (req: Request<{}, {}, DiffRequest>, res: Response) => {
+diffRouter.post('/lines', (req: Request<Record<string, string>, Record<string, unknown>, DiffRequest>, res: Response) => {
   try {
     const { original, modified } = req.body;
 
@@ -72,7 +72,7 @@ diffRouter.post('/lines', (req: Request<{}, {}, DiffRequest>, res: Response) => 
  * POST /api/diff/stats
  * Get statistics about changes between texts
  */
-diffRouter.post('/stats', (req: Request<{}, {}, DiffRequest>, res: Response) => {
+diffRouter.post('/stats', (req: Request<Record<string, string>, Record<string, unknown>, DiffRequest>, res: Response) => {
   try {
     const { original, modified } = req.body;
 
