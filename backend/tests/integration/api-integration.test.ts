@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from 'vitest';
 import request from 'supertest';
 import express, { Express } from 'express';
 import cors from 'cors';
@@ -8,6 +8,14 @@ import { errorHandler } from '../../src/api/middleware/errorHandler';
 
 describe('API Integration Tests', () => {
   let app: Express;
+
+  beforeAll(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
 
   function createTestApp(): Express {
     dotenv.config();
