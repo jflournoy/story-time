@@ -40,7 +40,7 @@ describe('Diff API', () => {
       expect(response.body).toHaveProperty('changes');
       expect(response.body).toHaveProperty('similarity');
       expect(response.body.changes.length).toBeGreaterThan(0);
-      expect(response.body.changes.some((c: any) => c.type === 'add')).toBe(true);
+      expect(response.body.changes.some((c: { type: string }) => c.type === 'add')).toBe(true);
     });
 
     it('should return 400 for missing fields', async () => {
@@ -89,7 +89,7 @@ describe('Diff API', () => {
         })
         .expect(200);
 
-      expect(response.body.changes.some((c: any) => c.type === 'add')).toBe(true);
+      expect(response.body.changes.some((c: { type: string }) => c.type === 'add')).toBe(true);
     });
 
     it('should identify removed lines', async () => {
@@ -101,7 +101,7 @@ describe('Diff API', () => {
         })
         .expect(200);
 
-      expect(response.body.changes.some((c: any) => c.type === 'remove')).toBe(true);
+      expect(response.body.changes.some((c: { type: string }) => c.type === 'remove')).toBe(true);
     });
 
     it('should return 400 for missing fields', async () => {

@@ -3,7 +3,7 @@ import request from 'supertest';
 import app from '../../src/index';
 
 describe('Sessions API Endpoints', () => {
-  let sessionId: string;
+  let _sessionId: string;
 
   describe('POST /api/sessions - Create Session', () => {
     it('should create a new session', async () => {
@@ -22,7 +22,7 @@ describe('Sessions API Endpoints', () => {
       expect(response.body).toHaveProperty('updatedAt');
 
       // Save for later tests
-      sessionId = response.body.id;
+      _sessionId = response.body.id;
     });
 
     it('should create session with only title', async () => {

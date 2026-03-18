@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { HistoryService, HistoryEntry } from '../../src/services/historyService';
+import { HistoryService } from '../../src/services/historyService';
 
 describe('HistoryService', () => {
   let historyService: HistoryService;

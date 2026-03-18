@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { SessionService } from '../../src/services/sessionService';
 import { HistoryEntry } from '../../src/services/historyService';
 

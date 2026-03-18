@@ -40,6 +40,7 @@ describe('ProviderFactory', () => {
         serviceUrl: 'http://localhost:1234'
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(() => ProviderFactory.createProvider(config as any)).toThrow('Unknown provider type: unknown');
     });
   });

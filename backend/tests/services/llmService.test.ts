@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { LLMService } from '../../src/services/llmService';
-import type { LLMProvider } from '../../src/providers/llm-provider';
 
 describe('LLMService', () => {
   let llmService: LLMService;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockProvider: any;
 
   beforeEach(() => {

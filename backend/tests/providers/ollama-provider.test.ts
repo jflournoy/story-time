@@ -12,12 +12,14 @@ vi.mock('ollama', () => {
 
 describe('OllamaProvider', () => {
   let provider: OllamaProvider;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockOllama: any;
 
   beforeEach(() => {
     vi.clearAllMocks();
 
     provider = new OllamaProvider({ baseUrl: 'http://localhost:11434' });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mockOllama = (provider as any).ollama;
 
     mockOllama.generate.mockResolvedValue({

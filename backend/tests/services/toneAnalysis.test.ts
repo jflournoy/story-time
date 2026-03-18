@@ -197,7 +197,7 @@ describe('ToneAnalysisService', () => {
 
   describe('integration with sessions', () => {
     it('should analyze tone for a session iteration', async () => {
-      const sessionId = 'test-session-123';
+      const _sessionId = 'test-session-123';
       const text = 'Narrative content.';
 
       vi.mocked(mockProvider.expand).mockResolvedValueOnce('neutral, 0.1, calm');

@@ -368,7 +368,7 @@ describe('Text Operations API', () => {
 
   describe('Request validation', () => {
     it('should handle malformed JSON', async () => {
-      const response = await request(app)
+      await request(app)
         .post('/api/text/expand')
         .set('Content-Type', 'application/json')
         .send('invalid json')

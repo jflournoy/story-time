@@ -4,10 +4,10 @@ import type { LLMProvider } from '../../src/providers/llm-provider';
 describe('LLMProvider Interface', () => {
   it('should define required methods', () => {
     const mockProvider: LLMProvider = {
-      expand: async (text: string, synopsis?: string) => 'expanded',
-      refine: async (text: string, synopsis?: string) => 'refined',
-      revise: async (text: string, synopsis?: string) => 'revised',
-      generateSynopsis: async (text: string) => 'synopsis',
+      expand: async (_text: string, _synopsis?: string) => 'expanded',
+      refine: async (_text: string, _synopsis?: string) => 'refined',
+      revise: async (_text: string, _synopsis?: string) => 'revised',
+      generateSynopsis: async (_text: string) => 'synopsis',
       healthCheck: async () => true,
       getProviderName: () => 'mock',
     };
