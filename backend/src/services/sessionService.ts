@@ -1,6 +1,5 @@
 import Database from 'better-sqlite3';
 import { HistoryEntry } from './historyService';
-import { randomUUID } from 'crypto';
 import type { EntityExtractionResult } from './entityExtractionService';
 
 export interface SessionMetadata {
@@ -247,7 +246,7 @@ export class SessionService {
       updateStmt.run(sessionId);
 
       return true;
-    } catch (error) {
+    } catch (_error) {
       return false;
     }
   }

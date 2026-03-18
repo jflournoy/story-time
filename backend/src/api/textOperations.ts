@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { LLMService } from '../services/llmService';
 import { HistoryService } from '../services/historyService';
-import { TextOperation } from '../models/types';
 
 export const textOperationsRouter = Router();
 const llmService = new LLMService();
