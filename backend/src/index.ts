@@ -1,14 +1,11 @@
 #!/usr/bin/env node
 
+import './env'; // must be first — loads .env before any other module reads process.env
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import path from 'path';
 import { router as apiRouter } from './api/routes';
 import { errorHandler } from './api/middleware/errorHandler';
-
-// Load environment variables
-dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
