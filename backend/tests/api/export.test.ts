@@ -2,20 +2,23 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import express, { Express } from 'express';
 
-// Create mock functions
-const mockExportToText = vi.fn();
-const mockExportToMarkdown = vi.fn();
-const mockExportToJSON = vi.fn();
+// Hoist mock functions so they're available inside vi.mock factory
+const mocks = vi.hoisted(() => ({
+  exportToText: vi.fn(),
+  exportToMarkdown: vi.fn(),
+  exportToJSON: vi.fn(),
+}));
 
 // Mock the export service before importing router
 vi.mock('../../src/services/exportService', () => {
-  return {
-    ExportService: vi.fn().mockImplementation(() => ({
-      exportToText: mockExportToText,
-      exportToMarkdown: mockExportToMarkdown,
-      exportToJSON: mockExportToJSON,
-    })),
-  };
+  const ExportService = vi.fn(function () {
+    return {
+      exportToText: mocks.exportToText,
+      exportToMarkdown: mocks.exportToMarkdown,
+      exportToJSON: mocks.exportToJSON,
+    };
+  });
+  return { ExportService };
 });
 
 // Import router after mocking
@@ -28,9 +31,9 @@ describe('Export API', () => {
     vi.clearAllMocks();
 
     // Set default mock return values
-    mockExportToText.mockReturnValue('');
-    mockExportToMarkdown.mockReturnValue('');
-    mockExportToJSON.mockReturnValue('');
+    mocks.exportToText.mockReturnValue('');
+    mocks.exportToMarkdown.mockReturnValue('');
+    mocks.exportToJSON.mockReturnValue('');
 
     // Create Express app for testing
     app = express();
@@ -46,7 +49,7 @@ describe('Export API', () => {
         format: 'text',
       };
 
-      mockExportToText.mockReturnValue(payload.text);
+      mocks.exportToText.mockReturnValue(payload.text);
 
       const response = await request(app)
         .post('/api/export/text')
@@ -80,7 +83,7 @@ describe('Export API', () => {
         format: 'text',
       };
 
-      mockExportToText.mockReturnValue(payload.text);
+      mocks.exportToText.mockReturnValue(payload.text);
 
       const response = await request(app)
         .post('/api/export/text')
@@ -101,7 +104,7 @@ describe('Export API', () => {
       };
 
       const markdownContent = `# Synopsis\n\n${payload.synopsis}\n\n---\n\n# Content\n\n${payload.text}`;
-      mockExportToMarkdown.mockReturnValue(markdownContent);
+      mocks.exportToMarkdown.mockReturnValue(markdownContent);
 
       const response = await request(app)
         .post('/api/export/markdown')
@@ -126,7 +129,7 @@ describe('Export API', () => {
         synopsis: payload.synopsis,
         exportedAt: new Date().toISOString(),
       }, null, 2);
-      mockExportToJSON.mockReturnValue(jsonContent);
+      mocks.exportToJSON.mockReturnValue(jsonContent);
 
       const response = await request(app)
         .post('/api/export/json')

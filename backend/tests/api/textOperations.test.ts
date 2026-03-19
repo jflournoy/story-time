@@ -2,24 +2,27 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import express, { Express } from 'express';
 
-// Create mock functions that will be shared
-const mockExpand = vi.fn();
-const mockRefine = vi.fn();
-const mockRevise = vi.fn();
-const mockRestructure = vi.fn();
-const mockGenerateSynopsis = vi.fn();
+// Hoist mock functions so they're available inside vi.mock factory
+const mocks = vi.hoisted(() => ({
+  expand: vi.fn(),
+  refine: vi.fn(),
+  revise: vi.fn(),
+  restructure: vi.fn(),
+  generateSynopsis: vi.fn(),
+}));
 
 // Mock the LLMService before importing the router
 vi.mock('../../src/services/llmService', () => {
-  return {
-    LLMService: vi.fn().mockImplementation(() => ({
-      expand: mockExpand,
-      refine: mockRefine,
-      revise: mockRevise,
-      restructure: mockRestructure,
-      generateSynopsis: mockGenerateSynopsis,
-    })),
-  };
+  const LLMService = vi.fn(function () {
+    return {
+      expand: mocks.expand,
+      refine: mocks.refine,
+      revise: mocks.revise,
+      restructure: mocks.restructure,
+      generateSynopsis: mocks.generateSynopsis,
+    };
+  });
+  return { LLMService };
 });
 
 // Import router after mocking
@@ -42,7 +45,7 @@ describe('Text Operations API', () => {
       const inputText = 'The house was old.';
       const expandedText = 'The ancient house stood weathered and worn.';
 
-      mockExpand.mockResolvedValue(expandedText);
+      mocks.expand.mockResolvedValue(expandedText);
 
       const response = await request(app)
         .post('/api/text/expand')
@@ -53,7 +56,7 @@ describe('Text Operations API', () => {
         operation: 'expand',
         result: expandedText,
       });
-      expect(mockExpand).toHaveBeenCalledWith(inputText, undefined);
+      expect(mocks.expand).toHaveBeenCalledWith(inputText, undefined);
     });
 
     it('should expand text with synopsis', async () => {
@@ -61,7 +64,7 @@ describe('Text Operations API', () => {
       const synopsis = 'A gothic horror tale.';
       const expandedText = 'The ominous house loomed, decrepit and foreboding.';
 
-      mockExpand.mockResolvedValue(expandedText);
+      mocks.expand.mockResolvedValue(expandedText);
 
       const response = await request(app)
         .post('/api/text/expand')
@@ -72,7 +75,7 @@ describe('Text Operations API', () => {
         operation: 'expand',
         result: expandedText,
       });
-      expect(mockExpand).toHaveBeenCalledWith(inputText, synopsis);
+      expect(mocks.expand).toHaveBeenCalledWith(inputText, synopsis);
     });
 
     it('should return 400 if text is missing', async () => {
@@ -84,7 +87,7 @@ describe('Text Operations API', () => {
       expect(response.body).toEqual({
         error: 'Text is required',
       });
-      expect(mockExpand).not.toHaveBeenCalled();
+      expect(mocks.expand).not.toHaveBeenCalled();
     });
 
     it('should return 400 if text is empty string', async () => {
@@ -99,7 +102,7 @@ describe('Text Operations API', () => {
     });
 
     it('should return 500 on service error', async () => {
-      mockExpand.mockRejectedValue(new Error('LLM service unavailable'));
+      mocks.expand.mockRejectedValue(new Error('LLM service unavailable'));
 
       const response = await request(app)
         .post('/api/text/expand')
@@ -117,7 +120,7 @@ describe('Text Operations API', () => {
       const inputText = 'The house was old and it was big.';
       const refinedText = 'The house was old and imposing.';
 
-      mockRefine.mockResolvedValue(refinedText);
+      mocks.refine.mockResolvedValue(refinedText);
 
       const response = await request(app)
         .post('/api/text/refine')
@@ -128,7 +131,7 @@ describe('Text Operations API', () => {
         operation: 'refine',
         result: refinedText,
       });
-      expect(mockRefine).toHaveBeenCalledWith(inputText, undefined);
+      expect(mocks.refine).toHaveBeenCalledWith(inputText, undefined);
     });
 
     it('should refine text with synopsis', async () => {
@@ -136,7 +139,7 @@ describe('Text Operations API', () => {
       const synopsis = 'A minimalist story.';
       const refinedText = 'The house: old, imposing.';
 
-      mockRefine.mockResolvedValue(refinedText);
+      mocks.refine.mockResolvedValue(refinedText);
 
       const response = await request(app)
         .post('/api/text/refine')
@@ -147,7 +150,7 @@ describe('Text Operations API', () => {
         operation: 'refine',
         result: refinedText,
       });
-      expect(mockRefine).toHaveBeenCalledWith(inputText, synopsis);
+      expect(mocks.refine).toHaveBeenCalledWith(inputText, synopsis);
     });
 
     it('should return 400 if text is missing', async () => {
@@ -162,7 +165,7 @@ describe('Text Operations API', () => {
     });
 
     it('should return 500 on service error', async () => {
-      mockRefine.mockRejectedValue(new Error('Model error'));
+      mocks.refine.mockRejectedValue(new Error('Model error'));
 
       const response = await request(app)
         .post('/api/text/refine')
@@ -180,7 +183,7 @@ describe('Text Operations API', () => {
       const inputText = 'First this. Then that. The end.';
       const revisedText = 'Events unfolded naturally, leading to a conclusion.';
 
-      mockRevise.mockResolvedValue(revisedText);
+      mocks.revise.mockResolvedValue(revisedText);
 
       const response = await request(app)
         .post('/api/text/revise')
@@ -191,7 +194,7 @@ describe('Text Operations API', () => {
         operation: 'revise',
         result: revisedText,
       });
-      expect(mockRevise).toHaveBeenCalledWith(inputText, undefined);
+      expect(mocks.revise).toHaveBeenCalledWith(inputText, undefined);
     });
 
     it('should revise text with synopsis', async () => {
@@ -199,7 +202,7 @@ describe('Text Operations API', () => {
       const synopsis = 'A story of transformation.';
       const revisedText = 'Transformative events unfolded.';
 
-      mockRevise.mockResolvedValue(revisedText);
+      mocks.revise.mockResolvedValue(revisedText);
 
       const response = await request(app)
         .post('/api/text/revise')
@@ -210,7 +213,7 @@ describe('Text Operations API', () => {
         operation: 'revise',
         result: revisedText,
       });
-      expect(mockRevise).toHaveBeenCalledWith(inputText, synopsis);
+      expect(mocks.revise).toHaveBeenCalledWith(inputText, synopsis);
     });
 
     it('should return 400 if text is missing', async () => {
@@ -225,7 +228,7 @@ describe('Text Operations API', () => {
     });
 
     it('should return 500 on service error', async () => {
-      mockRevise.mockRejectedValue(new Error('Connection timeout'));
+      mocks.revise.mockRejectedValue(new Error('Connection timeout'));
 
       const response = await request(app)
         .post('/api/text/revise')
@@ -243,7 +246,7 @@ describe('Text Operations API', () => {
       const inputText = 'Start. Middle. End. Start. Middle. End. Conclusion.';
       const restructuredText = 'The narrative unfolds logically through beginning, center, and conclusion.';
 
-      mockRestructure.mockResolvedValue(restructuredText);
+      mocks.restructure.mockResolvedValue(restructuredText);
 
       const response = await request(app)
         .post('/api/text/restructure')
@@ -254,7 +257,7 @@ describe('Text Operations API', () => {
         operation: 'restructure',
         result: restructuredText,
       });
-      expect(mockRestructure).toHaveBeenCalledWith(inputText, undefined);
+      expect(mocks.restructure).toHaveBeenCalledWith(inputText, undefined);
     });
 
     it('should restructure text with synopsis', async () => {
@@ -262,7 +265,7 @@ describe('Text Operations API', () => {
       const synopsis = 'A mystery unfolding.';
       const restructuredText = 'Clues emerge, building suspense toward revelation.';
 
-      mockRestructure.mockResolvedValue(restructuredText);
+      mocks.restructure.mockResolvedValue(restructuredText);
 
       const response = await request(app)
         .post('/api/text/restructure')
@@ -273,7 +276,7 @@ describe('Text Operations API', () => {
         operation: 'restructure',
         result: restructuredText,
       });
-      expect(mockRestructure).toHaveBeenCalledWith(inputText, synopsis);
+      expect(mocks.restructure).toHaveBeenCalledWith(inputText, synopsis);
     });
 
     it('should return 400 if text is missing', async () => {
@@ -299,7 +302,7 @@ describe('Text Operations API', () => {
     });
 
     it('should return 500 on service error', async () => {
-      mockRestructure.mockRejectedValue(new Error('Restructure failed'));
+      mocks.restructure.mockRejectedValue(new Error('Restructure failed'));
 
       const response = await request(app)
         .post('/api/text/restructure')
@@ -317,7 +320,7 @@ describe('Text Operations API', () => {
       const inputText = 'A long story about heroes and villains.';
       const synopsis = 'An epic tale of good versus evil.';
 
-      mockGenerateSynopsis.mockResolvedValue(synopsis);
+      mocks.generateSynopsis.mockResolvedValue(synopsis);
 
       const response = await request(app)
         .post('/api/text/synopsis')
@@ -327,7 +330,7 @@ describe('Text Operations API', () => {
       expect(response.body).toEqual({
         synopsis,
       });
-      expect(mockGenerateSynopsis).toHaveBeenCalledWith(inputText);
+      expect(mocks.generateSynopsis).toHaveBeenCalledWith(inputText);
     });
 
     it('should return 400 if text is missing', async () => {
@@ -353,7 +356,7 @@ describe('Text Operations API', () => {
     });
 
     it('should return 500 on service error', async () => {
-      mockGenerateSynopsis.mockRejectedValue(new Error('Synopsis failed'));
+      mocks.generateSynopsis.mockRejectedValue(new Error('Synopsis failed'));
 
       const response = await request(app)
         .post('/api/text/synopsis')
