@@ -56,8 +56,8 @@
     "// Maintainability": "=== Code maintainability analysis ===",
     "maintain:files": "find . -name '*.js' 2>/dev/null | grep -v node_modules | wc -l | xargs",
     "maintain:largest": "find . -name '*.js' 2>/dev/null | grep -v node_modules | xargs wc -l 2>/dev/null | sort -rn | head -5",
-    "maintain:debt": "echo \"TODO: $(grep -r 'TODO' --exclude-dir=node_modules . 2>/dev/null | wc -l) | FIXME: $(grep -r 'FIXME' --exclude-dir=node_modules . 2>/dev/null | wc -l)\"",
-    "maintain:summary": "echo \"Files: $(npm run maintain:files --silent) | Debt markers: $(grep -r 'TODO\\|FIXME' --exclude-dir=node_modules . 2>/dev/null | wc -l)\"",
+    "maintain:debt": "echo \"TODO: $(grep -r 'TODO' --exclude-dir=node_modules --exclude-dir=.venv --exclude-dir=venv --exclude-dir=.history . 2>/dev/null | wc -l) | FIXME: $(grep -r 'FIXME' --exclude-dir=node_modules --exclude-dir=.venv --exclude-dir=venv --exclude-dir=.history . 2>/dev/null | wc -l)\"",
+    "maintain:summary": "echo \"Files: $(npm run maintain:files --silent) | Debt markers: $(grep -r 'TODO\\|FIXME' --exclude-dir=node_modules --exclude-dir=.venv --exclude-dir=venv --exclude-dir=.history . 2>/dev/null | wc -l)\"",
     "// Session Management": "=== Session analysis and retrospectives ===",
     "retrospective": "node scripts/retrospective.js",
     "session:save": "node scripts/session-history.js save",
@@ -181,6 +181,6 @@
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.57.1",
     "vite": "^8.0.0",
-    "vitest": "^1.0.4"
+    "vitest": "^4.1.0"
   }
 }
