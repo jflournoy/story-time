@@ -27,33 +27,14 @@ describe('Provider Integration Tests', () => {
     });
   });
 
-  describe('OllamaProvider Integration', () => {
-    beforeEach(() => {
-      process.env.LLM_PROVIDER = 'ollama';
-      process.env.OLLAMA_BASE_URL = 'http://localhost:11434';
-      process.env.OLLAMA_MODEL = 'mistral';
-    });
-
-    it('should create ollama provider from environment', () => {
-      const provider = ProviderFactory.createFromEnv();
-      expect(provider.getProviderName()).toBe('ollama');
-    });
-
-    it('should create LLMService with ollama provider and expose provider name', () => {
-      const provider = ProviderFactory.createFromEnv();
-      const service = new LLMService(provider);
-      expect(service.getProviderName()).toBe('ollama');
-    });
-  });
-
   describe('Default Provider', () => {
     beforeEach(() => {
       delete process.env.LLM_PROVIDER;
     });
 
-    it('should default to ollama when no provider specified', () => {
+    it('should default to local when no provider specified', () => {
       const provider = ProviderFactory.createFromEnv();
-      expect(provider.getProviderName()).toBe('ollama');
+      expect(provider.getProviderName()).toBe('local');
     });
   });
 

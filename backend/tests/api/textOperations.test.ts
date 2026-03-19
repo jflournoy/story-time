@@ -99,7 +99,7 @@ describe('Text Operations API', () => {
     });
 
     it('should return 500 on service error', async () => {
-      mockExpand.mockRejectedValue(new Error('Ollama unavailable'));
+      mockExpand.mockRejectedValue(new Error('LLM service unavailable'));
 
       const response = await request(app)
         .post('/api/text/expand')

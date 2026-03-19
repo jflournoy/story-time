@@ -42,9 +42,9 @@ describe('LLMService', () => {
     });
 
     it('should handle errors gracefully', async () => {
-      mockProvider.expand.mockRejectedValue(new Error('Ollama connection failed'));
+      mockProvider.expand.mockRejectedValue(new Error('LLM connection failed'));
 
-      await expect(llmService.expand('test text')).rejects.toThrow('Ollama connection failed');
+      await expect(llmService.expand('test text')).rejects.toThrow('LLM connection failed');
     });
   });
 

@@ -21,19 +21,6 @@ describe('ProviderFactory', () => {
       expect(provider.getProviderName()).toBe('local');
     });
 
-    it('should create OllamaProvider when type is "ollama"', () => {
-      const config = {
-        type: 'ollama',
-        baseUrl: 'http://localhost:11434',
-        model: 'mistral'
-      };
-
-      const provider = ProviderFactory.createProvider(config);
-
-      expect(provider).toBeDefined();
-      expect(provider.getProviderName()).toBe('ollama');
-    });
-
     it('should throw error for unknown provider type', () => {
       const config = {
         type: 'unknown',
@@ -59,22 +46,12 @@ describe('ProviderFactory', () => {
       expect(provider.getProviderName()).toBe('local');
     });
 
-    it('should create OllamaProvider from LLM_PROVIDER=ollama', () => {
-      process.env.LLM_PROVIDER = 'ollama';
-      process.env.OLLAMA_BASE_URL = 'http://localhost:11434';
-      process.env.OLLAMA_MODEL = 'llama2';
-
-      const provider = ProviderFactory.createFromEnv();
-
-      expect(provider.getProviderName()).toBe('ollama');
-    });
-
-    it('should default to ollama when LLM_PROVIDER not set', () => {
+    it('should default to local when LLM_PROVIDER not set', () => {
       delete process.env.LLM_PROVIDER;
 
       const provider = ProviderFactory.createFromEnv();
 
-      expect(provider.getProviderName()).toBe('ollama');
+      expect(provider.getProviderName()).toBe('local');
     });
   });
 });
