@@ -1,0 +1,58 @@
+/* ============================================
+   Session management
+   ============================================ */
+
+.session-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.session-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.session-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.session-selector {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: white;
+}
+
+.btn-session {
+    padding: 8px 16px;
+    border: 1px solid #4CAF50;
+    background: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-session:hover {
+    background: #45a049;
+}
+
+.btn-session.secondary {
+    background: white;
+    color: #4CAF50;
+}
+
+.btn-session.secondary:hover {
+    background: #f1f8f4;
+}

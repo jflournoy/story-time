@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Time - AI-Assisted Writing</title>
+    <link rel="stylesheet" href="/src/styles/base.css">
+    <link rel="stylesheet" href="/src/styles/buttons.css">
+    <link rel="stylesheet" href="/src/styles/notifications.css">
+    <link rel="stylesheet" href="/src/styles/layout.css">
+    <link rel="stylesheet" href="/src/styles/sessions.css">
+    <link rel="stylesheet" href="/src/styles/history.css">
+    <link rel="stylesheet" href="/src/styles/diff.css">
+    <link rel="stylesheet" href="/src/styles/analysis.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Story Time</h1>
+        <p class="subtitle">AI-assisted narrative development using local LLMs</p>
+
+        <div class="session-section">
+            <div class="session-header">
+                <h3>📁 Session:</h3>
+                <select class="session-selector" id="sessionSelector">
+                    <option value="">No Session (In-Memory Only)</option>
+                </select>
+                <button class="btn-session" data-action="createNewSession">+ New Session</button>
+                <button class="btn-session secondary" data-action="manageSessions">Manage</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="synopsis">Narrative Context (Optional Synopsis):</label>
+            <textarea id="synopsis" placeholder="Provide context about your story, characters, and themes..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="text">Your Text:</label>
+            <textarea id="text" placeholder="Enter or paste your text here..."></textarea>
+        </div>
+
+        <div class="operations">
+            <button class="btn-primary" data-action="processText" data-operation="expand">✨ Expand</button>
+            <button class="btn-secondary" data-action="processText" data-operation="refine">🔍 Refine</button>
+            <button class="btn-tertiary" data-action="processText" data-operation="revise">📝 Revise</button>
+            <button class="btn-secondary" data-action="processText" data-operation="restructure">🔄 Restructure</button>
+            <button class="btn-secondary" data-action="generateSynopsis">💡 Generate Synopsis</button>
+        </div>
+
+        <div class="export-section">
+            <h3>Export Your Work</h3>
+            <div class="export-buttons">
+                <button class="btn-export" data-action="exportAs" data-format="text">📄 Export as Text</button>
+                <button class="btn-export" data-action="exportAs" data-format="markdown">📋 Export as Markdown</button>
+                <button class="btn-export" data-action="exportAs" data-format="json">⚙️ Export as JSON</button>
+            </div>
+        </div>
+
+        <div class="complexity-section">
+            <h3>📊 Narrative Complexity Analysis</h3>
+            <div class="complexity-buttons">
+                <button class="btn-complexity primary" data-action="analyzeFullComplexity">🔬 Full Analysis</button>
+                <button class="btn-complexity" data-action="analyzeThreads">🧵 Plot Threads</button>
+                <button class="btn-complexity" data-action="analyzeDensity">📊 Narrative Density</button>
+                <button class="btn-complexity" data-action="analyzeCharacters">👥 Characters</button>
+                <button class="btn-complexity" data-action="analyzeScenes">🎬 Scenes</button>
+                <button class="btn-complexity" data-action="analyzeReadability">📖 Readability</button>
+                <button class="btn-complexity" data-action="compareComplexity">⚖️ Compare Versions</button>
+            </div>
+            <div class="complexity-results" id="complexityResults">
+                <div id="complexityContent"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>🎭 Emotional Tone Analysis</h3>
+            <div class="analysis-buttons">
+                <button class="btn-analysis tone primary" data-action="analyzeTone">📊 Analyze Tone</button>
+                <button class="btn-analysis tone" data-action="compareTone">⚖️ Compare Tone</button>
+                <button class="btn-analysis tone" data-action="computeEmotionalArc">📈 Emotional Arc</button>
+            </div>
+            <div class="analysis-results" id="toneResults">
+                <div id="toneContent"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>🏷️ Entity Extraction</h3>
+            <div class="analysis-buttons">
+                <button class="btn-analysis entity primary" data-action="extractEntities">🔍 Extract Entities</button>
+                <button class="btn-analysis entity" data-action="getEntitySummary">📋 Entity Summary</button>
+                <button class="btn-analysis entity" data-action="compareEntities">⚖️ Compare Entities</button>
+            </div>
+            <div class="analysis-results" id="entityResults">
+                <div id="entityContent"></div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>⏱️ Timeline & Events Analysis</h3>
+            <div class="analysis-buttons">
+                <button class="btn-analysis timeline primary" data-action="extractEvents">📅 Extract Events</button>
+                <button class="btn-analysis timeline" data-action="buildTimeline">🗓️ Build Timeline</button>
+                <button class="btn-analysis timeline" data-action="analyzePacing">⚡ Analyze Pacing</button>
+                <button class="btn-analysis timeline" data-action="detectStructure">🏗️ Detect Structure</button>
+                <button class="btn-analysis timeline" data-action="compareTimelines">⚖️ Compare Timelines</button>
+            </div>
+            <div class="analysis-results" id="timelineResults">
+                <div id="timelineContent"></div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <p>⏳ Processing... This may take a moment.</p>
+        </div>
+
+        <div class="result" id="result">
+            <h3 id="resultTitle">Result:</h3>
+            <pre id="resultText"></pre>
+        </div>
+
+        <div class="diff-section" id="diffSection">
+            <div class="diff-header">
+                <h3>📊 View Changes</h3>
+                <div class="diff-stats">
+                    <div class="diff-stat">
+                        <span>+</span>
+                        <span class="diff-added" id="diffAdded">0</span>
+                    </div>
+                    <div class="diff-stat">
+                        <span>-</span>
+                        <span class="diff-removed" id="diffRemoved">0</span>
+                    </div>
+                    <div class="diff-stat">
+                        <span>Match:</span>
+                        <span class="diff-similarity" id="diffSimilarity">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="diff-container">
+                <div class="diff-pane">
+                    <div class="diff-pane-title">Original</div>
+                    <div class="diff-lines" id="diffOriginal"></div>
+                </div>
+                <div class="diff-pane">
+                    <div class="diff-pane-title">Modified</div>
+                    <div class="diff-lines" id="diffModified"></div>
+                </div>
+            </div>
+
+            <div class="diff-toggle">
+                <button class="btn-toggle-diff" data-action="toggleLineView">Toggle Line View</button>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <h3>📚 Operation History</h3>
+                <div class="history-stats">
+                    <span id="historyCount">0 operations</span>
+                </div>
+            </div>
+
+            <div class="history-list" id="historyList">
+                <div class="history-empty">No operations yet. Start editing to see history here.</div>
+            </div>
+
+            <div class="history-controls">
+                <button class="btn-history" data-action="refreshHistory">🔄 Refresh</button>
+                <button class="btn-history" data-action="downloadHistory">📥 Download History</button>
+                <button class="btn-history danger" data-action="clearHistoryConfirm">🗑️ Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <!-- agent-panels placeholder -->
+    <!-- world-state placeholder -->
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

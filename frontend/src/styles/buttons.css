@@ -1,0 +1,45 @@
+/* ============================================
+   Buttons: all button variants
+   ============================================ */
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #45a049;
+}
+
+.btn-secondary {
+    background: #2196F3;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #0b7dda;
+}
+
+.btn-tertiary {
+    background: #FF9800;
+    color: white;
+}
+
+.btn-tertiary:hover {
+    background: #e68900;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

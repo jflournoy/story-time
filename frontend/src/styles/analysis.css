@@ -1,0 +1,340 @@
+/* ============================================
+   Analysis: complexity, tone, entity, timeline
+   ============================================ */
+
+/* ---- Complexity ---- */
+
+.complexity-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid #eee;
+}
+
+.complexity-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.complexity-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.btn-complexity {
+    padding: 10px 16px;
+    border: 1px solid #9c27b0;
+    background: white;
+    color: #9c27b0;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-complexity:hover {
+    background: #f3e5f5;
+}
+
+.btn-complexity.primary {
+    background: #9c27b0;
+    color: white;
+}
+
+.btn-complexity.primary:hover {
+    background: #7b1fa2;
+}
+
+.btn-complexity:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.complexity-results {
+    display: none;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.complexity-results.show {
+    display: block;
+}
+
+.complexity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.complexity-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.complexity-card h4 {
+    color: #9c27b0;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.complexity-card .metric {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+}
+
+.complexity-card .metric:last-child {
+    border-bottom: none;
+}
+
+.complexity-card .metric-label {
+    color: #666;
+}
+
+.complexity-card .metric-value {
+    font-weight: 600;
+    color: #333;
+}
+
+.complexity-score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+    border-radius: 8px;
+    color: white;
+}
+
+.complexity-score .score-value {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.complexity-score .score-label {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.recommendations-list {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff3e0;
+    border: 1px solid #ffcc80;
+    border-radius: 6px;
+}
+
+.recommendations-list h4 {
+    color: #e65100;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.recommendations-list ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #333;
+}
+
+.recommendations-list li {
+    margin-bottom: 6px;
+}
+
+.thread-list, .character-list, .scene-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.thread-item, .character-item, .scene-item {
+    padding: 8px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.thread-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.thread-status.active { background: #e8f5e9; color: #2e7d32; }
+.thread-status.dormant { background: #fff3e0; color: #e65100; }
+.thread-status.resolved { background: #e3f2fd; color: #1565c0; }
+
+/* ---- Tone / Entity / Timeline ---- */
+
+.analysis-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 2px solid #eee;
+}
+
+.analysis-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.analysis-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.btn-analysis {
+    padding: 10px 16px;
+    border: 1px solid #2196F3;
+    background: white;
+    color: #2196F3;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-analysis:hover {
+    background: #e3f2fd;
+}
+
+.btn-analysis.primary {
+    background: #2196F3;
+    color: white;
+}
+
+.btn-analysis.primary:hover {
+    background: #1976D2;
+}
+
+.btn-analysis.tone {
+    border-color: #FF5722;
+    color: #FF5722;
+}
+
+.btn-analysis.tone:hover {
+    background: #ffebee;
+}
+
+.btn-analysis.tone.primary {
+    background: #FF5722;
+    color: white;
+}
+
+.btn-analysis.tone.primary:hover {
+    background: #E64A19;
+}
+
+.btn-analysis.entity {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.btn-analysis.entity:hover {
+    background: #e8f5e9;
+}
+
+.btn-analysis.entity.primary {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-analysis.entity.primary:hover {
+    background: #45a049;
+}
+
+.btn-analysis.timeline {
+    border-color: #FF9800;
+    color: #FF9800;
+}
+
+.btn-analysis.timeline:hover {
+    background: #fff3e0;
+}
+
+.btn-analysis.timeline.primary {
+    background: #FF9800;
+    color: white;
+}
+
+.btn-analysis.timeline.primary:hover {
+    background: #F57C00;
+}
+
+.btn-analysis:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.analysis-results {
+    display: none;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.analysis-results.show {
+    display: block;
+}
+
+.results-content {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.entity-list, .event-list, .tone-segments {
+    margin-top: 15px;
+}
+
+.entity-item, .event-item, .tone-segment {
+    padding: 10px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.entity-name, .event-description {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.entity-details, .event-details {
+    font-size: 12px;
+    color: #666;
+}
+
+.tone-value {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.tone-positive { background: #e8f5e9; color: #2e7d32; }
+.tone-negative { background: #ffebee; color: #c62828; }
+.tone-neutral { background: #f5f5f5; color: #666; }
