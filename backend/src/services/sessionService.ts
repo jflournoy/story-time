@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3';
-import { HistoryEntry } from './historyService';
+import { HistoryEntry, OperationType } from './historyService';
 import type { EntityExtractionResult } from './entityExtractionService';
 
 export interface SessionMetadata {
@@ -288,7 +288,7 @@ export class SessionService {
 
     return rows.map(row => ({
       id: row.id,
-      type: row.type,
+      type: row.type as OperationType,
       originalText: row.original_text,
       resultText: row.result_text,
       synopsis: row.synopsis,

@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { SessionService } from '../../src/services/sessionService';
-import { HistoryEntry } from '../../src/services/historyService';
+import { HistoryEntry, OperationType } from '../../src/services/historyService';
+
+const VALID_OPERATION_TYPES: OperationType[] = ['expand', 'refine', 'revise', 'restructure', 'synopsis'];
 
 describe('SessionService - Persistent Storage with SQLite', () => {
   let sessionService: SessionService;
@@ -238,6 +240,31 @@ describe('SessionService - Persistent Storage with SQLite', () => {
       const history = await sessionService.getSessionHistory(session.id);
 
       expect(history).toEqual([]);
+    });
+
+    it('should return history entries with type as OperationType (not raw string)', async () => {
+      const session = await sessionService.createSession({ title: 'Type Test' });
+
+      for (const opType of VALID_OPERATION_TYPES) {
+        const op: HistoryEntry = {
+          id: `op_${opType}`,
+          type: opType,
+          originalText: 'Original',
+          resultText: 'Result',
+          timestamp: new Date().toISOString(),
+        };
+        await sessionService.addOperationToSession(session.id, op);
+      }
+
+      const history = await sessionService.getSessionHistory(session.id);
+
+      expect(history).toHaveLength(VALID_OPERATION_TYPES.length);
+      for (const entry of history) {
+        expect(VALID_OPERATION_TYPES).toContain(entry.type);
+        // Ensure the type field satisfies OperationType at runtime
+        const typed: OperationType = entry.type;
+        expect(typed).toBeDefined();
+      }
     });
   });
 
