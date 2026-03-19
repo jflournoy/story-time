@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 
 export default [
   {
-    ignores: ['backend/dist/**', '**/dist/**', '**/build/**', 'node_modules/**']
+    ignores: ['backend/dist/**', '**/dist/**', '**/build/**', 'node_modules/**', 'frontend/public/assets/**']
   },
   js.configs.recommended,
   ...tseslint.configs.recommended.map(config => ({
