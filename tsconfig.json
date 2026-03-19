@@ -11,6 +11,6 @@
     "moduleResolution": "node",
     "types": ["node"]
   },
-  "include": ["backend/src/**/*", "frontend/src/**/*"],
+  "include": ["backend/src/**/*"],
   "exclude": ["node_modules", "dist", "backend/dist", "backend/tests", "test"]
 }

@@ -4,6 +4,8 @@
   "description": "AI-assisted narrative development using local LLMs - A flexible web-based tool for writers",
   "scripts": {
     "// Story Time": "=== Story Time application commands ===",
+    "frontend:dev": "vite frontend",
+    "frontend:build": "vite build frontend",
     "dev": "tsx watch backend/src/index.ts",
     "build": "tsc -p backend/tsconfig.json",
     "start": "node backend/dist/index.js",
@@ -179,6 +181,7 @@
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.57.1",
+    "vite": "^8.0.0",
     "vitest": "^1.0.4"
   }
 }
