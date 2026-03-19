@@ -8,7 +8,7 @@ Complete setup instructions for Story Time - AI-assisted narrative development.
 
 - **Node.js** >= 22.0.0
 - **npm** (comes with Node.js)
-- **Ollama** for local LLM inference
+- **Python** >= 3.10 (for the llama.cpp LLM service)
 
 ### Recommended
 
@@ -17,28 +17,19 @@ Complete setup instructions for Story Time - AI-assisted narrative development.
 
 ## Installation
 
-### 1. Install Ollama
+### 1. Install Python Dependencies
 
 ```bash
-# macOS/Linux
-curl -fsSL https://ollama.com/install.sh | sh
+cd services
 
-# Or download from https://ollama.com/download
+# Install with pip
+pip install -r requirements.txt
+
+# Or with uv (faster)
+uv pip install -r requirements.txt
 ```
 
-### 2. Pull a Model
-
-```bash
-# Recommended for getting started (fast, good quality)
-ollama pull llama3:8b
-
-# Or other options:
-ollama pull llama3:70b      # Better quality, requires more RAM
-ollama pull qwen2.5:14b     # Excellent for creative writing
-ollama pull mistral:7b      # Fast alternative
-```
-
-### 3. Clone and Install Story Time
+### 2. Clone and Install Story Time
 
 ```bash
 # Clone repository
@@ -49,7 +40,7 @@ cd story-time
 npm install
 ```
 
-### 4. Configure Environment
+### 3. Configure Environment
 
 ```bash
 # Copy example environment file
@@ -65,12 +56,31 @@ nano .env
 # Server port
 PORT=3000
 
-# Ollama settings
-OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=llama3:8b
+# LLM service settings
+LLM_PROVIDER=local
+LLM_SERVICE_URL=http://localhost:8003
+```
+
+**Python LLM service options** (in `backend/.env.example`):
+
+```env
+LLM_MODEL_REPO=TheBloke/Mistral-7B-Instruct-v0.2-GGUF
+LLM_MODEL_FILE=mistral-7b-instruct-v0.2.Q4_K_M.gguf
+LLM_GPU_LAYERS=0
+LLM_CONTEXT_LENGTH=4096
+LLM_SERVICE_PORT=8003
 ```
 
 ## Running Story Time
+
+### Start the LLM Service
+
+```bash
+cd services
+python llm_service.py
+```
+
+The LLM service will start on `http://localhost:8003`.
 
 ### Development Mode
 
@@ -100,14 +110,11 @@ xdg-open frontend/public/index.html
 
 ## Verify Installation
 
-### 1. Check Ollama
+### 1. Check LLM Service
 
 ```bash
-# List available models
-ollama list
-
-# Test model
-ollama run llama3:8b "Write a short sentence"
+# Health check
+curl http://localhost:8003/health
 ```
 
 ### 2. Check Backend
@@ -171,6 +178,8 @@ story-time/
 │   ├── public/
 │   │   └── index.html        # Simple HTML frontend
 │   └── src/                  # Future: React/Vue components
+├── services/
+│   └── llm_service.py        # Python llama.cpp LLM service
 ├── docs/                     # Documentation
 ├── .env.example              # Environment template
 └── package.json              # Dependencies and scripts
@@ -178,14 +187,14 @@ story-time/
 
 ## Troubleshooting
 
-### Ollama Not Running
+### LLM Service Not Running
 
 ```bash
-# Check if Ollama is running
-ps aux | grep ollama
+# Check if the service is running
+curl http://localhost:8003/health
 
-# Start Ollama (if not running)
-ollama serve
+# Start the service
+cd services && python llm_service.py
 ```
 
 ### Port Already in Use
@@ -198,14 +207,14 @@ PORT=3001
 lsof -ti:3000 | xargs kill -9
 ```
 
-### Model Not Found
+### Model Download Issues
+
+The Python LLM service downloads models from HuggingFace on first run. If this fails:
 
 ```bash
-# List downloaded models
-ollama list
-
-# Pull the model you want
-ollama pull llama3:8b
+# Check your internet connection
+# Try a smaller model by updating .env:
+LLM_MODEL_FILE=mistral-7b-instruct-v0.2.Q4_K_S.gguf
 ```
 
 ### CORS Errors
@@ -231,49 +240,24 @@ npx tsc --version
 
 ## Using Different Models
 
-To use a different Ollama model:
+To use a different GGUF model, update your environment:
 
-```bash
-# 1. Pull the model
-ollama pull qwen2.5:14b
-
-# 2. Update .env
-OLLAMA_MODEL=qwen2.5:14b
-
-# 3. Restart server
+```env
+LLM_MODEL_REPO=TheBloke/Llama-2-13B-chat-GGUF
+LLM_MODEL_FILE=llama-2-13b-chat.Q4_K_M.gguf
 ```
+
+Then restart the LLM service.
 
 ### Recommended Models
 
 | Model | Size | Best For | Speed |
 |-------|------|----------|-------|
-| llama3:8b | 4.7GB | General use, fast | ⚡⚡⚡ |
-| llama3:70b | 40GB | Best quality | ⚡ |
-| qwen2.5:14b | 9GB | Creative writing | ⚡⚡ |
-| mistral:7b | 4.1GB | Fast, efficient | ⚡⚡⚡ |
-
-## Custom GGUF Models
-
-To use custom models from HuggingFace:
-
-```bash
-# 1. Download GGUF file
-wget https://huggingface.co/author/model/resolve/main/model.gguf
-
-# 2. Create Modelfile
-cat > Modelfile <<EOF
-FROM ./model.gguf
-PARAMETER temperature 0.7
-EOF
-
-# 3. Import to Ollama
-ollama create my-model -f Modelfile
-
-# 4. Use in Story Time
-# Update .env: OLLAMA_MODEL=my-model
-```
+| Mistral 7B Instruct Q4 | ~4GB | General use, fast | Fast |
+| Llama 3 8B Q4 | ~5GB | Good quality, versatile | Fast |
+| Qwen 2.5 14B Q4 | ~8GB | Creative writing | Medium |
 
 ## Support
 
-- Issues: https://github.com/jflournoy/story-time/issues
-- Ollama Docs: https://ollama.com/docs
+- Issues: <https://github.com/jflournoy/story-time/issues>
+- llama-cpp-python docs: <https://github.com/abetlen/llama-cpp-python>

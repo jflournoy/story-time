@@ -10,14 +10,14 @@ Complete the TypeScript backend + Python LLM microservice integration using Test
 │  ✅ TypeScript backend (Express) - working, 125 tests passing   │
 │  ✅ Python LLM service (FastAPI) - created, documented          │
 │  ❌ Provider abstraction - not created                          │
-│  ❌ Integration - backend still expects Ollama                  │
+│  ❌ Integration - backend needs provider wiring                 │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
 │  TARGET STATE                                                    │
 │  ✅ TypeScript backend uses provider abstraction                │
 │  ✅ LocalLLMProvider calls Python service                       │
-│  ✅ OllamaProvider preserved for backwards compatibility        │
+│  ✅ LocalLLMProvider is the sole provider (Ollama removed)      │
 │  ✅ Configuration selects provider via environment              │
 │  ✅ All tests pass with mocked providers                        │
 └─────────────────────────────────────────────────────────────────┘
@@ -375,9 +375,9 @@ git commit -m "🟢 feat: implement LocalLLMProvider for Python service (TDD GRE
 
 ---
 
-## Step 3: OllamaProvider (Backwards Compatibility)
+## Step 3: ~~OllamaProvider~~ (REMOVED)
 
-**Goal:** Preserve existing Ollama functionality in provider pattern.
+**Note:** The Ollama provider was removed in favor of the llama.cpp-based local provider. The code below is kept for historical reference only.
 
 ### 🔴 RED: Write failing test
 
@@ -561,7 +561,7 @@ git commit -m "🟢 feat: add provider configuration system (TDD GREEN)"
 
 ## Step 5: Update LLMService
 
-**Goal:** Use provider abstraction instead of direct Ollama calls.
+**Goal:** Use provider abstraction instead of direct LLM calls.
 
 ### 🔴 RED: Update existing tests
 
@@ -638,16 +638,12 @@ git commit -m "🔄 refactor: LLMService uses provider abstraction (TDD REFACTOR
 1. **Update `.env.example`:**
 ```bash
 # Provider Selection
-PROVIDER_MODE=local  # 'local' | 'ollama'
+LLM_PROVIDER=local
 
-# Local LLM Service (Python)
+# Local LLM Service (Python llama.cpp)
 LLM_SERVICE_URL=http://localhost:8003
 LLM_MAX_TOKENS=500
 LLM_TEMPERATURE=0.7
-
-# Ollama (backwards compatibility)
-OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=llama3:8b
 ```
 
 2. **Update `package.json` scripts:**
@@ -777,7 +773,7 @@ npm run dev:all
 
 - [ ] Step 1: LLMProvider interface + tests
 - [ ] Step 2: LocalLLMProvider + tests
-- [ ] Step 3: OllamaProvider + tests
+- [x] Step 3: ~~OllamaProvider~~ (removed)
 - [ ] Step 4: Provider configuration + tests
 - [ ] Step 5: Refactor LLMService + update tests
 - [ ] Step 6: Environment & scripts
@@ -792,7 +788,6 @@ npm run dev:all
 After completing all steps:
 
 1. ✅ `npm run backend:test` - All tests pass
-2. ✅ `PROVIDER_MODE=local npm run dev` - Backend starts without Ollama
+2. ✅ `LLM_PROVIDER=local npm run dev` - Backend starts with llama.cpp service
 3. ✅ Python service responds to health checks
 4. ✅ Text operations work via Python service
-5. ✅ `PROVIDER_MODE=ollama npm run dev` - Still works with Ollama (if installed)

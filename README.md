@@ -52,8 +52,7 @@ These features are designed to inform the API from the start, even if not immedi
 
 ### Backend (Planned)
 
-- **LLM Backend**: Flexible integration for HuggingFace models
-  - Supports Ollama, LM Studio, vLLM, or direct HuggingFace inference
+- **LLM Backend**: llama.cpp via local Python service
   - Model-agnostic design for maximum flexibility
   - Recommended models: Llama 3.x, Mistral, Qwen, etc.
 
@@ -293,9 +292,9 @@ open http://localhost:3000
 // config.json
 {
   "llm": {
-    "backend": "ollama",  // or "lmstudio", "vllm", "huggingface"
-    "endpoint": "http://localhost:11434",
-    "model": "llama3:8b",
+    "backend": "local",  // llama.cpp via Python service
+    "endpoint": "http://localhost:8003",
+    "model": "mistral-7b-instruct-v0.2",
     "temperature": 0.7
   },
   "narrative": {
