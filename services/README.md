@@ -33,7 +33,7 @@ LLM_CONTEXT_LENGTH=4096
 
 # Service configuration
 LLM_SERVICE_HOST=0.0.0.0
-LLM_SERVICE_PORT=8003
+LLM_SERVICE_PORT=8011
 
 # Preload model on startup (optional)
 LLM_PRELOAD_MODEL=false
@@ -42,18 +42,18 @@ LLM_PRELOAD_MODEL=false
 ### Running the Service
 
 ```bash
-# Development mode with auto-reload
-uvicorn llm_service:app --reload --port 8003
+# Development mode with auto-reload (prefer: npm run llm:dev)
+uvicorn llm_service:app --reload --port 8011
 
 # Production mode
-uvicorn llm_service:app --port 8003 --workers 1
+uvicorn llm_service:app --port 8011 --workers 1
 ```
 
 ## API Endpoints
 
 ### Health Check
 ```bash
-curl http://localhost:8003/health
+curl http://localhost:8011/health
 ```
 
 Response:
@@ -68,7 +68,7 @@ Response:
 
 ### Text Completion (OpenAI-compatible)
 ```bash
-curl -X POST http://localhost:8003/v1/completions \
+curl -X POST http://localhost:8011/v1/completions \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Once upon a time in a magical forest,",
@@ -101,17 +101,17 @@ Response:
 
 ### Load Model
 ```bash
-curl -X POST http://localhost:8003/load
+curl -X POST http://localhost:8011/load
 ```
 
 ### Unload Model
 ```bash
-curl -X POST http://localhost:8003/unload
+curl -X POST http://localhost:8011/unload
 ```
 
 ### Check Download Status
 ```bash
-curl http://localhost:8003/download/status
+curl http://localhost:8011/download/status
 ```
 
 ## GPU Support
@@ -166,4 +166,4 @@ pytest
 ```
 
 ### API Documentation
-Visit http://localhost:8003/docs for interactive API documentation (Swagger UI).
+Visit http://localhost:8011/docs for interactive API documentation (Swagger UI).
